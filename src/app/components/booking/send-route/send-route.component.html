@@ -1,0 +1,104 @@
+<core-card class="block min-w-96 m-5">
+  <div class="flex justify-between bg-background-color px-3">
+    <b class="m-4 self-center">{{ labels.dialogTitle }}</b>
+    <remove-icon
+      (click)="close()"
+      class="hover:cursor-pointer w-6"
+    ></remove-icon>
+  </div>
+
+  <div class="grid min-h-80 px-4 py-4">
+    <div class="flex flex-col justify-between">
+      <div class="flex flex-col gap-y-6">
+        <div
+          *ngFor="let item of freightQuotes; let i = index"
+          (click)="selectRow(item)"
+          [ngClass]="{
+            '!bg-selected-item-color':
+              selectedItem.FreightQuoteNo == item.FreightQuoteNo
+          }"
+          class="text-xs grid grid-cols-3 border-2 border-gray-300 rounded-lg text-primary-text-color shadow-md bg-white font-extrabold py-2 px-4 p-4 cursor-pointer"
+        >
+          <div class="col-span-2 flex flex-col space-y-2.5">
+            <span class="flex-1"
+              >{{ getCityById(item.route[0])?.cityNameFa }} به
+              {{
+                getCityById(item.route[item.route.length - 1])?.cityNameFa
+              }}</span
+            >
+            <span class="flex-1 text-secondary-text-color font-medium"
+              ><span> {{ labels.deliveryTimeLabel }} :</span>
+              <span class="p-1">{{
+                item.MaximumDuration | timeFormat | persianDigits
+              }}</span>
+            </span>
+          </div>
+
+          <div class="flex items-center justify-end">
+            <span>{{
+              +item.TotalPrice | priceFormat : item.CurrencyCode | persianDigits
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row border border-gray-300 rounded-lg p-3 my-6">
+        <div class="flex flex-col gap-2">
+          <span>{{ labels.transportationCosts }} : </span>
+          <span>{{ labels.tax }} : </span>
+          <span>{{ labels.complications }} : </span>
+          <span class="mt-2">{{ labels.originFreight }} : </span>
+          <span class="mt-12 font-medium text-price-color"
+            >{{ labels.balancePayable }} :
+          </span>
+        </div>
+        <div class="flex flex-col flex-1 gap-2 text-end">
+          <span class="font-medium">{{
+            (selectedItem.TotalFreight ? selectedItem.TotalFreight : 0)
+              | priceFormat : "IRR"
+              | persianDigits
+          }}</span>
+          <span class="font-medium">{{
+            (selectedItem.VAT ? selectedItem.VAT : 0)
+              | priceFormat : "IRR"
+              | persianDigits
+          }}</span>
+          <span class="font-medium">{{
+            (selectedItem.TotalCharge ? selectedItem.TotalCharge : 0)
+              | priceFormat : "IRR"
+              | persianDigits
+          }}</span>
+          <div class="flex justify-end">
+            <core-input
+              class="w-32 ltr-grid"
+              type="number"
+              [canShowWordifyFa]="true"
+              [canSplitNumber]="true"
+              [inputFormControl]="
+                myForm.get('formControlLeftPayment')! | formControl
+              "
+              (onChange)="onChangeLeftPayment($event)"
+            ></core-input>
+          </div>
+          <span
+            (click)="leftPaymentClicked()"
+            class="cursor-pointer font-medium text-price-color"
+            >{{
+              totalPrice - leftPayment | priceFormat : "IRR" | persianDigits
+            }}</span
+          >
+        </div>
+      </div>
+      <div>
+        <core-btn
+          [isDisabled]="book.freightQuoteNo === ''"
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'success'"
+          [loading]="loading"
+          (click)="onSubmit()"
+          >{{ labels.buttonLabel }}</core-btn
+        >
+      </div>
+    </div>
+  </div>
+</core-card>

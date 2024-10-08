@@ -1,0 +1,14 @@
+<div class="search-box flex">
+  <input
+    type="search"
+    placeholder="{{ placeholder }}"
+    [(ngModel)]="value"
+    (ngModelChange)="change($event)"
+    class="box-border border rounded-r border-gray-400 focus:outline-0"
+  />
+  <div
+    class="search-button bg-white border border-r-0 border-gray-400 rounded fill-secondary-text-color cursor-pointer rounded-l"
+  >
+    <search-icon></search-icon>
+  </div>
+</div>

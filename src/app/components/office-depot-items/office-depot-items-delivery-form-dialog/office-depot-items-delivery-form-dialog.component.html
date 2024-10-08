@@ -1,0 +1,117 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{ labels.titleDialog }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+ 
+  <div class="flex flex-col flex-wrap flex-[8] mx-3 me-3 pt-1 pb-3">
+    <div class="content-item background-item-gray">
+      <div class="row-item">
+        <span class="title"> {{labels.totalPrice}} </span>
+        <span class="text-[13px] font-medium text-inherit">
+          <app-core-number
+            [type]="'number'"
+            [canShowWordInToolTip]="true"
+            [canSplitNumbers]="true"
+            [canShowIRR]="true"
+            [number]="bill?.bill?.totalPrice"
+          >
+          </app-core-number>
+        </span>
+      </div>
+      <div class="row-item">
+        <span class="title"> {{labels.prePayment }} </span>
+        <span class="text-[13px] font-medium text-inherit">
+          <app-core-number
+            [type]="'number'"
+            [canShowWordInToolTip]="true"
+            [canSplitNumbers]="true"
+            [canShowIRR]="true"
+            [number]="bill?.bill?.prePayment"
+          >
+          </app-core-number>
+        </span>
+      </div>
+      <div class="row-item">
+        <span class="title"> {{labels.leftPayment}}  </span>
+        <span class="text-[13px] font-medium text-inherit">
+          <app-core-number
+            [type]="'number'"
+            [canShowWordInToolTip]="true"
+            [canSplitNumbers]="true"
+            [canShowIRR]="true"
+            [number]="bill?.bill?.leftPayment"
+          >
+          </app-core-number>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-x-2">
+    <core-input
+    (onChange)="fullName = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.fullName"
+    [inputFormControl]="myForm.get('formControlFullName')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="idNumber = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.idNumber"
+    [inputFormControl]="myForm.get('formControlIdNumber')! | formControl"
+  ></core-input>
+
+  </div>
+  <div class="grid grid-cols-2 gap-x-2">
+  <core-input
+    (onChange)="courierAmount = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.courierAmount"
+    [canShowWordifyFa]="true"
+    [canSplitNumber]="true"
+    [type]="'number'"
+    [inputFormControl]="myForm.get('formControlCourierAmount')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="wareHouseCostAmount = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.wareHouseCostAmount"
+    [canShowWordifyFa]="true"
+    [canSplitNumber]="true"
+    [type]="'number'"
+    [inputFormControl]="
+      myForm.get('formControlWareHouseCostAmount')! | formControl
+    "
+  ></core-input>
+  </div>
+  <div class="grid grid-cols-2 gap-x-2">
+  <core-input
+    (onChange)="chargeAmount = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.chargeAmount"
+    [canShowWordifyFa]="true"
+    [canSplitNumber]="true"
+    [type]="'number'"
+    [inputFormControl]="myForm.get('formControlChargeAmount')! | formControl"
+  ></core-input>
+  </div>
+  
+
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      class="col-span-1"
+      [colorState]="'success'"
+    >
+      {{ labels.add }}
+    </core-btn>
+  </div>
+</core-card>

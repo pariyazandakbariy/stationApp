@@ -1,0 +1,162 @@
+<core-card class="block w-200 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-4 self-center">{{ labels.headerTitle }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div class="flex justify-center items-center pb-11 min-h-96" *ngIf="loading">
+    <div *ngIf="loading">
+      <core-spinner
+        [size]="56"
+        [colorState]="'primary'"
+        class="w-full px-3 flex items-center justify-center"
+        type="circle"
+      ></core-spinner>
+      <span class="w-full px-3 flex items-center justify-center py-8">{{
+        labels.pleaseWait
+      }}</span>
+    </div>
+  </div>
+  <div class="col-span-1 pb-3" *ngIf="service">
+    <div class="flex flex-col flex-wrap flex-[8] mx-3 me-3 pt-1 pb-3">
+      <div class="content-item background-item-gray">
+        <div class="w-1/2 flex items-center h-8">
+          <span class="title">{{ labels.serviceName }}</span>
+          <span class="value" [copyToClipboard]="service.serviceId">{{
+            service.serviceId | persianDigits
+          }}</span>
+        </div>
+        <div class="w-1/2 flex items-center h-8">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28"
+            >{{ labels.serviceNumber }}
+          </span>
+          <span class="value" [copyToClipboard]="service.serviceNo">{{
+            service.serviceNo | persianDigits
+          }}</span>
+        </div>
+      </div>
+      <div class="content-item">
+        <div class="row-item h-8">
+          <span class="title">{{ labels.originCity }}</span>
+          <span class="value">{{ service.originCity?.cityNameFa }}</span>
+        </div>
+        <div class="row-item h-8">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28">
+            {{ labels.destinationCity }}</span
+          >
+          <span class="value">{{ service.destinationCity?.cityNameFa }}</span>
+        </div>
+      </div>
+      <div
+        class="flex min-w-[285px] flex-1 p-2 rounded-lg mx-1 background-item-gray"
+      >
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+            labels.originOffice
+          }}</span>
+          <span class="text-[13px] font-medium text-inherit">{{
+            service.originOffice?.officeName
+          }}</span>
+        </div>
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28"
+            >{{ labels.destinationOffice }}
+          </span>
+          <span class="text-[13px] font-medium text-inherit">{{
+            service.destinationOffice?.officeName
+          }}</span>
+        </div>
+      </div>
+      <div class="flex min-w-[285px] flex-1 p-2 rounded-lg mx-1">
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+            labels.vehicleType
+          }}</span>
+          <span class="text-[13px] font-medium text-inherit">{{
+            service.vehicleType?.vehicleTypeNameFa
+          }}</span>
+        </div>
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28"
+            >{{ labels.durationMinutes }}
+          </span>
+          <span class="text-[13px] font-medium text-inherit">{{
+            service.durationMinutes | timeFormat | persianDigits
+          }}</span>
+        </div>
+      </div>
+      <div
+        class="flex min-w-[285px] flex-1 p-2 rounded-lg mx-1 background-item-gray"
+      >
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="title">{{ labels.driverName }}</span>
+          <span class="value">{{ service.driver?.driverFullName }}</span>
+        </div>
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28"
+            >{{ labels.driverPhone }}
+          </span>
+          <span
+            class="value"
+            [copyToClipboard]="service.driver?.driverMobilePhone"
+            >{{ service.driver?.driverMobilePhone | persianDigits }}</span
+          >
+        </div>
+      </div>
+      <div class="flex min-w-[285px] flex-1 p-2 rounded-lg mx-1">
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+            labels.arrivalDateTime
+          }}</span>
+          <span class="text-[13px] font-medium text-inherit"
+            ><span dir="ltr">{{
+              service.arrivalDateTime
+                | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                | persianDigits
+            }}</span></span
+          >
+        </div>
+        <div class="w-6/12 h-8 flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-28"
+            >{{ labels.departureDateTime }}
+          </span>
+          <span class="text-[13px] font-medium text-inherit">
+            <span dir="ltr">{{
+              service.departureDateTime
+                | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                | persianDigits
+            }}</span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="flex min-w-[285px] flex-1 p-2 rounded-lg mx-1 background-item-gray"
+      >
+        <div class="h-8 w-6/12 flex flex-1 items-center">
+          <span class="title">{{ labels.carrier }}</span>
+          <span class="value">{{ service.carrier?.carrierNameFa }}</span>
+        </div>
+        <div class="h-8 w-6/12 flex items-center">
+          <span class="title"></span>
+          <span class="value"></span>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-x-2 p-3" dir="ltr">
+      <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+        labels.close
+      }}</core-btn>
+      <core-btn
+        [loading]="loading"
+        (btnClicked)="updateService()"
+        class="col-span-1"
+        [colorState]="'warning'"
+      >
+        {{ labels.update }}
+      </core-btn>
+    </div>
+  </div>
+  <core-network-error *ngIf="error !== undefined"></core-network-error>
+</core-card>

@@ -1,0 +1,40 @@
+<div tabindex="-1" class="dropdown" (focusout)="focusOut()">
+  <div
+    class="select"
+    [ngClass]="{
+      selectError: inputFormControl.touched && inputFormControl.errors ,
+      'highlight-background':
+          canHighlightBackground &&
+          inputFormControl.value.toString().length === 0 && !(inputFormControl.touched && inputFormControl.errors),
+    }"
+    (click)="showSelectCityModal()"
+  >
+    <span
+      class="placeholder-top"
+      *ngIf="(selectedCity | json) != ({} | json)"
+      >{{ placeholder }}</span
+    >
+
+    <span
+      [ngClass]="[
+        placeholder.length > 0 && (selectedCity | json) == ({} | json)
+          ? 'placeholder'
+          : 'selected'
+      ]"
+      >{{
+        placeholder.length > 0 && (selectedCity | json) == ({} | json)
+          ? placeholder
+          : selectedCity.cityNameFa
+      }}</span
+    >
+  </div>
+
+  <div class="label-error overflow-hidden">
+    <span
+      *ngIf="
+       inputFormControl.touched  &&
+      inputFormControl.errors?.['required']"
+      >این فیلد خالی است</span
+    >
+  </div>
+</div>

@@ -1,0 +1,111 @@
+:host {
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  height: 30px;
+  outline: none;
+  border: none;
+  text-align: center;
+  color: var(--default);
+  background-color: transparent;
+  box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
+    0 2px 5px 0 rgba(43, 45, 80, 0.08), 0 1px 1.5px 0 rgba(0, 0, 0, 0.07),
+    0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin-inline-start: auto;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  transition: 0.3s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
+      0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 3px 9px 0 rgba(43, 45, 80, 0.08),
+      0 1px 1.5px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  }
+  &.small {
+    height: 30px;
+  }
+  &.medium {
+    height: 38px;
+  }
+  &.round {
+    border: 2px solid #7b1fa2;
+    height: 44px;
+    border-radius: 30px;
+    background-color: #7b1fa2;
+    &:hover {
+      color: #fff;
+      background-color: #7b1fa2;
+    }
+
+    &:active {
+      color: #fff;
+      background-color: #7b1fa2;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+
+  &.success {
+    color: var(--success-button-color);
+    &:active {
+      background-color: var(--success-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.warning {
+    color: var(--warning-button-color);
+    &:active {
+      background-color: var(--warning-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.default {
+    color: var(--default-button-color);
+    &:active {
+      background-color: var(--default-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.primary {
+    color: var(--primary-button-color);
+    &:active {
+      background-color: var(--primary-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.danger {
+    color: var(--danger-button-color);
+    &:active {
+      background-color: var(--danger-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.square {
+    padding-inline: 16px;
+    border-radius: 0.25rem;
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+}
+.loading {
+  display: inline-block;
+  margin-top: 4px;
+}

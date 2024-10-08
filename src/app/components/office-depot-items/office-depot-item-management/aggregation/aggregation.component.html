@@ -1,0 +1,127 @@
+<div class="flex flex-col pb-8">
+  <core-card class="col-span-1 justify-between m-5">
+    <div class="col-span-1 pb-4">
+      <core-spinner
+        *ngIf="loading"
+        class="w-full px-3 block"
+        type="line"
+      ></core-spinner>
+      <core-table
+        [columnsSchema]="columnsSchema"
+        [responsive]="false"
+        (onColumnClicked)="onColumnClicked($event)"
+        [tableData]="tableData"
+        [loading]="loading"
+      ></core-table>
+      <div class="grid grid-cols-subgrid grid-cols-4">
+        <div class="col-start-2">{{ labels.total }}</div>
+        <div class="col-start-4">
+          {{ totalWeight | weight | persianDigits }}
+        </div>
+      </div>
+    </div>
+  </core-card>
+  <core-card class="flex flex-col m-5">
+    <div *ngIf="isLeftPayment" class="text-center mt-10 mb-10">
+      <warning-icon
+        class="inline-block w-14 fill-table-warning-color"
+      ></warning-icon>
+      <b class="block text-table-warning-color"
+        >امکان تجمیع برای آیتم های پس کرایه وجود ندارد</b
+      >
+    </div>
+    <div *ngIf="!isLeftPayment" class="p-4 pt-8">
+      <core-city-selector
+        class="flex-1"
+        [placeholder]="labels.destinationCity"
+        (onSelect)="onDestinationCityChange($event)"
+        [inputFormControl]="
+          myForm.get('formControlDestinationCity')! | formControl
+        "
+      ></core-city-selector>
+      <core-select
+        [label]="labels.destinationStation"
+        [items]="destinationStations | async"
+        [titleKey]="'officeName'"
+        [valueKey]="'officeId'"
+        [inputFormControl]="
+          myForm.get('formControlDestinationStation')! | formControl
+        "
+        (onItemSelected)="destinationStation = $event"
+      ></core-select>
+
+      <core-select
+        [titleKey]="'packageTypeName_FA'"
+        [valueKey]="'packageTypeID'"
+        [label]="labels.packageType"
+        [items]="packageTypes | async"
+        [inputFormControl]="myForm.get('formControlPackageType')! | formControl"
+        (onItemSelected)="
+          packageInfo.packageType = $event; onPackageTypeChange($event)
+        "
+      ></core-select>
+
+      <core-select
+        [titleKey]="'packageTypeSizeName_FA'"
+        [valueKey]="'packageTypeSizeID'"
+        [label]="labels.packageSize"
+        [inputFormControl]="
+          myForm.get('formControlPackageTypeSize')! | formControl
+        "
+        [items]="filteredPackageSizeTypes | async"
+        (onItemSelected)="
+          packageInfo.packageSizeType = $event; onPackageSizeChange()
+        "
+      ></core-select>
+
+      <div class="flex gap-3" *ngIf="isSizeManually">
+        <core-input
+          class="flex-1"
+          type="number"
+          placeholder="{{ labels.length }}"
+          [inputFormControl]="myForm.get('formControlLength')! | formControl"
+          (onChange)="packageInfo.packageSize!.x = $event"
+        >
+        </core-input>
+        <core-input
+          class="flex-1"
+          type="number"
+          placeholder="{{ labels.width }}"
+          [inputFormControl]="myForm.get('formControlWidth')! | formControl"
+          (onChange)="packageInfo.packageSize!.y = $event"
+        >
+        </core-input>
+        <core-input
+          class="flex-1"
+          type="number"
+          placeholder="{{ labels.height }}"
+          [inputFormControl]="myForm.get('formControlHeight')! | formControl"
+          (onChange)="packageInfo.packageSize!.z = $event"
+        >
+        </core-input>
+      </div>
+      <core-select
+        [titleKey]="'exceptionTypeName_FA'"
+        [valueKey]="'exceptionTypeID'"
+        [label]="labels.ProductType"
+        [items]="exceptionTypes | async"
+        [inputFormControl]="
+          myForm.get('formControlExceptionType')! | formControl
+        "
+        (onItemSelected)="packageInfo.exceptionType = $event"
+      ></core-select>
+
+      <core-btn
+        class="col-start-3"
+        [theme]="'square'"
+        [colorState]="'success'"
+        [size]="'medium'"
+        [loading]="loading"
+        [isDisabled]="!myForm.valid"
+        [formGroup]="myForm"
+        (btnClicked)="onSubmit()"
+        >{{ labels.button }}</core-btn
+      >
+    </div>
+  </core-card>
+</div>

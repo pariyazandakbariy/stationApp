@@ -1,0 +1,126 @@
+<core-card class="block w-96 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-4 self-center">{{ labels.headerTitle }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div *ngIf="loading; else elseTemplate">
+    <core-spinner
+      [size]="56"
+      [colorState]="'primary'"
+      class="w-full px-3 flex items-center justify-center"
+      type="circle"
+    ></core-spinner>
+    <span class="w-full px-3 flex items-center justify-center py-8">{{
+      labels.pleaseWait
+    }}</span>
+  </div>
+
+  <ng-template #elseTemplate>
+    <div
+      class="p-4 text-primary-text-color"
+      *ngIf="error == undefined; else elseTemplateError"
+    >
+      <div class="col-span-1 pb-5" *ngIf="vehicleInformation">
+        <div class="flex flex-col px-4">
+          <div
+            class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+          >
+            <div class="w-full flex items-center">
+              <span class="text-[13px] text-[#6c757d] font-medium">{{
+                labels.vehicleId
+              }}</span>
+              <span class="text-[13px] font-medium text-inherit ms-auto me-4">{{
+                vehicleInformation.vehicleId | persianDigits
+              }}</span>
+            </div>
+          </div>
+          <div class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg">
+            <div class="w-full flex items-center">
+              <span class="text-[13px] text-[#6c757d] font-medium"
+                >{{ labels.register }}
+              </span>
+              <span class="text-[13px] font-medium text-inherit ms-auto me-4">
+                <p>
+                  <span>{{
+                    vehicleInformation.registerFormat.columnFour + " "
+                      | persianDigits
+                  }}</span
+                  ><span>{{
+                    vehicleInformation.registerFormat.columnThree + " "
+                      | persianDigits
+                  }}</span
+                  ><span>{{
+                    vehicleInformation.registerFormat.columnTwo + " "
+                      | persianDigits
+                  }}</span
+                  ><span>{{
+                    vehicleInformation.registerFormat.columnOne + " "
+                      | persianDigits
+                  }}</span>
+                </p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col flex-wrap flex-[8] mx-4">
+          <div class="flex flex-col flex-1">
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+            >
+              <div class="w-full flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium">{{
+                  labels.ownerFullName
+                }}</span>
+                <span
+                  class="text-[13px] font-medium text-inherit ms-auto me-4"
+                  >{{ vehicleInformation.ownerFullName }}</span
+                >
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg">
+              <div class="w-full flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium">{{
+                  labels.ownerMobilePhone
+                }}</span>
+                <span
+                  class="text-[13px] font-medium text-inherit ms-auto me-4"
+                  >{{ vehicleInformation.ownerMobilePhone }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col px-4">
+          <div
+            class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+          >
+            <div class="w-full flex items-center">
+              <span class="text-[13px] text-[#6c757d] font-medium">{{
+                labels.vehicleType
+              }}</span>
+              <span class="text-[13px] font-medium text-inherit ms-auto me-4">{{
+                vehicleInformation.vehicleType?.vehicleTypeNameFa
+              }}</span>
+            </div>
+          </div>
+          <div class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg">
+            <div class="w-full flex items-center">
+              <span class="text-[13px] text-[#6c757d] font-medium"
+                >{{ labels.carrier }}
+              </span>
+              <span class="text-[13px] font-medium text-inherit ms-auto me-4">{{
+                vehicleInformation.carrier?.carrierNameFa
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #elseTemplateError>
+      <core-network-error></core-network-error>
+    </ng-template>
+  </ng-template>
+</core-card>

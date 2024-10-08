@@ -1,0 +1,13 @@
+<button
+  (click)="clicked()"
+  [ngClass]="['button', disable ? 'disabled' : '', theme, colorState, size]"
+  [type]="buttonType"
+>
+  <ng-content *ngIf="!loading"></ng-content>
+  <core-spinner
+    *ngIf="loading"
+    class="loading"
+    [colorState]="colorState"
+    [size]="20"
+  ></core-spinner>
+</button>

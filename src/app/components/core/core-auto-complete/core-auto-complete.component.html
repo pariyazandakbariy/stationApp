@@ -1,0 +1,30 @@
+<div class="dropdown">
+  <div
+    class="select"
+    [ngClass]="{ 'select-clicked': isOpenMenu }"
+    (click)="openMenuClick()"
+  >
+    <input
+      class="selected"
+      [placeholder]="label"
+      [(ngModel)]="value"
+      (ngModelChange)="onChanged($event)"
+      (focusout)="focusOut()"
+    />
+    <span
+      class="material-symbols-outlined caret"
+      [ngClass]="{ 'caret-rotate': isOpenMenu }"
+    >
+      expand_more
+    </span>
+  </div>
+  <ul class="menu" [ngClass]="{ 'menu-open': isOpenMenu }">
+    <li
+      *ngFor="let item of _items"
+      [ngClass]="{ active: item == selectedItem }"
+      (click)="onItemSelect(item)"
+    >
+      {{ item.title }}
+    </li>
+  </ul>
+</div>

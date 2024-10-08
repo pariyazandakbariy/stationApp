@@ -1,0 +1,64 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{ labels.title }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+
+  <core-pelak
+    class="block mx-4 w-80 cursor-pointer"
+    [defaultValue]="vehicle.register"
+    [isDisable]="true"
+  >
+  </core-pelak>
+
+  <core-input
+    (onChange)="settlementVehicleDebtToOffice.amount = +$event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.amount"
+    [type]="'number'"
+    [canShowWordifyFa]="true"
+    [canSplitNumber]="true"
+    [inputFormControl]="myForm.get('formControlAmount')! | formControl"
+  ></core-input>
+
+  <core-input
+    (onChange)="settlementVehicleDebtToOffice.receiptNo = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.receiptNo"
+    [inputFormControl]="myForm.get('formControlReceiptNo')! | formControl"
+  ></core-input>
+
+  <core-date-picker
+    class="block mx-4 w-80"
+    [label]="labels.date"
+    [canSelectToday]="true"
+    [inputFormControl]="myForm.get('formControlDate')! | formControl"
+  >
+  </core-date-picker>
+
+  <core-textarea
+    class="block mx-4 w-80"
+    [placeholder]="labels.description"
+    (onChange)="settlementVehicleDebtToOffice.description = $event"
+    [textareaFormControl]="myForm.get('formControlDescription')! | formControl"
+  ></core-textarea>
+
+  <div class="grid grid-cols-2 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      [formGroup]="myForm"
+      class="col-span-1"
+      [colorState]="'success'"
+    >
+      {{ labels.submit }}
+    </core-btn>
+  </div>
+</core-card>

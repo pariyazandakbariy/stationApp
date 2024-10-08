@@ -1,0 +1,109 @@
+@media print {
+  .print-box {
+    display: inline-block !important;
+  }
+  body,
+  html {
+    background-color: white !important;
+  }
+  div:first-child {
+    direction: rtl;
+    width: 100%;
+    background-color: white;
+  }
+  th div {
+    background-color: #e0e0e0;
+  }
+  input[type="checkbox"]:checked {
+    background-color: #575757 !important;
+  }
+  .amount-table-with {
+    width: 185px !important;
+  }
+  .amount-bottom-table-with {
+    width: 123px !important;
+  }
+}
+.amount-table-with {
+  width: 50%;
+}
+.amount-bottom-table-with {
+  width: 35%;
+}
+.print-box {
+  /* display: none; */
+}
+body {
+  background-color: white;
+}
+.table-amount th,
+.table-amount td {
+  border: 1px solid;
+}
+
+.text-xxs {
+  font-size: 10px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  background-color: #575757;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #575757 !important;
+}
+input[type="checkbox"]:checked {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -o-appearance: none;
+}
+
+.print-button {
+  width: 100%;
+  height: 38px;
+  outline: none;
+  border: none;
+  text-align: center;
+  color: var(--default);
+  background-color: transparent;
+  box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
+    0 2px 5px 0 rgba(43, 45, 80, 0.08), 0 1px 1.5px 0 rgba(0, 0, 0, 0.07),
+    0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin-inline-start: auto;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  transition: 0.3s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
+      0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 3px 9px 0 rgba(43, 45, 80, 0.08),
+      0 1px 1.5px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  &.primary {
+    color: var(--primary-button-color);
+    &:active {
+      background-color: var(--primary-button-background-color);
+      box-shadow: none;
+    }
+  }
+
+  &.square {
+    padding-inline: 16px;
+    border-radius: 0.25rem;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+}

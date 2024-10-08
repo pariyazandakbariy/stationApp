@@ -1,0 +1,154 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{
+      config.data.data ? labels.editTraditional : labels.addTraditional
+    }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div class="flex justify-between">
+    <core-input
+      (onChange)="traditionalManifestItem.billNumber = $event"
+      class="block mx-4 w-80"
+      [placeholder]="labels.tableHeaderBillCode"
+      [inputFormControl]="myForm?.get('formControlBillCode')! | formControl"
+    ></core-input>
+    <core-date-picker
+      class="block mx-4 w-80"
+      [label]="labels.tableHeaderDate"
+      [defaultDate]="traditionalManifestItem.billDate"
+      [canSelectToday]="true"
+      [inputFormControl]="myForm?.get('formControlDate')! | formControl"
+    >
+    </core-date-picker>
+  </div>
+  <div class="flex justify-between">
+    <core-input
+      (onChange)="traditionalManifestItem.receiverFullName = $event"
+      class="block mx-4 w-80"
+      [placeholder]="labels.tableHeaderName"
+      [inputFormControl]="myForm?.get('formControlName')! | formControl"
+    ></core-input>
+
+    <core-input
+      (onChange)="traditionalManifestItem.receiverMobilePhone = $event"
+      class="block mx-4 w-80"
+      [placeholder]="labels.tableHeaderPhoneNumber"
+      [inputFormControl]="myForm?.get('formControlPhoneNumber')! | formControl"
+    ></core-input>
+  </div>
+  <div class="flex justify-between">
+    <core-input
+      (onChange)="traditionalManifestItem.itemCount = +$event"
+      class="block mx-4 w-80"
+      [placeholder]="labels.tableHeaderItemCount"
+      [inputFormControl]="myForm?.get('formControlItemCount')! | formControl"
+    ></core-input>
+    <core-input
+      (onChange)="traditionalManifestItem.priceToCollectAmount = +$event"
+      class="block mx-4 w-80"
+      [type]="'number'"
+      [canShowWordifyFa]="true"
+      [canSplitNumber]="true"
+      [placeholder]="labels.tableHeaderTotalPrice"
+      [inputFormControl]="myForm?.get('formControlTotalPrice')! | formControl"
+    ></core-input>
+  </div>
+
+  <div class="flex justify-between">
+    <core-input
+      (onChange)="traditionalManifestItem.cityServicesAmount = +$event"
+      class="block mx-4 w-80"
+      [type]="'number'"
+      [canShowWordifyFa]="true"
+      [canSplitNumber]="true"
+      [placeholder]="labels.tableHeaderCityServicesAmount"
+      [inputFormControl]="
+        myForm?.get('formControlCityServicesAmount')! | formControl
+      "
+    ></core-input>
+    <core-input
+      (onChange)="traditionalManifestItem.extraServicesAmount = +$event"
+      class="block mx-4 w-80"
+      [type]="'number'"
+      [canShowWordifyFa]="true"
+      [canSplitNumber]="true"
+      [placeholder]="labels.tableHeaderExtraServicesAmount"
+      [inputFormControl]="
+        myForm?.get('formControlExtraServicesAmount')! | formControl
+      "
+    ></core-input>
+  </div>
+
+  <div class="flex justify-between">
+    <core-input
+      (onChange)="traditionalManifestItem.transitServicesAmount = +$event"
+      class="block mx-4 w-80"
+      [type]="'number'"
+      [canShowWordifyFa]="true"
+      [canSplitNumber]="true"
+      [placeholder]="labels.tableHeaderTransitServicesAmount"
+      [inputFormControl]="
+        myForm?.get('formControlTransitServicesAmount')! | formControl
+      "
+    ></core-input>
+    <core-input
+      (onChange)="traditionalManifestItem.prepaymentAmount = +$event"
+      class="block mx-4 w-80"
+      [type]="'number'"
+      [canShowWordifyFa]="true"
+      [canSplitNumber]="true"
+      [placeholder]="labels.tableHeaderPrepaymentAmount"
+      [inputFormControl]="
+        myForm?.get('formControlPrepaymentAmount')! | formControl
+      "
+    ></core-input>
+  </div>
+
+  <core-input
+    (onChange)="traditionalManifestItem.description = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderDescription"
+    [inputFormControl]="myForm?.get('formControlDescription')! | formControl"
+  ></core-input>
+
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm?.valid"
+      *ngIf="config.data.data"
+      class="col-span-1"
+      [formGroup]="myForm!"
+      [colorState]="'warning'"
+    >
+      {{ labels.edit }}
+    </core-btn>
+    <core-btn
+      [loading]="loadingClearForm"
+      *ngIf="!config.data.data"
+      (btnClicked)="submitAndClearForm()"
+      [formGroup]="myForm!"
+      [isDisabled]="!myForm?.valid"
+      class="col-span-1"
+      [colorState]="'success'"
+    >
+      {{ labels.addAndClear }}
+    </core-btn>
+    <core-btn
+      *ngIf="config.data.data"
+      [loading]="loadingDelete"
+      (btnClicked)="delete()"
+      class="col-span-1"
+      [colorState]="'danger'"
+      [confirmDialog]="confirmDelete"
+      >{{ labels.delete }}</core-btn
+    >
+  </div>
+</core-card>

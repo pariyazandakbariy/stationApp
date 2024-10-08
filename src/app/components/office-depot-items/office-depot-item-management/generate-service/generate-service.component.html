@@ -1,0 +1,215 @@
+<div class="m-4 flex justify-center items-center">
+  <div class="h-min rounded-lg shadow-md bg-white">
+    <div class="flex justify-between bg-background-color px-3">
+      <b class="m-4 self-center">{{
+        isEditMode ? labels.editService : labels.dialogTitle
+      }}</b>
+      <remove-icon
+        (click)="close()"
+        class="hover:cursor-pointer w-6"
+      ></remove-icon>
+    </div>
+
+    <div class="grid min-h-40 px-4 py-4 overflow-auto h-screen/80">
+      <div class="grid">
+        <div class="grid md:grid-cols-3 grid-cols-2 gap-3 justify-between">
+          <core-select
+            class="block mx-4 w-80"
+            [label]="labels.company"
+            [defaultValue]="carriers.getValue()[0].carrierId"
+            [items]="carriers | async"
+            [titleKey]="'carrierNameFa'"
+            [valueKey]="'carrierId'"
+            (onItemSelected)="generateService.carrier = $event"
+            [inputFormControl]="myForm.get('formControlCompany')! | formControl"
+          ></core-select>
+          <core-input
+            class="block mx-4 w-80"
+            [placeholder]="labels.serviceNumber"
+            [inputFormControl]="
+              myForm.get('formControlServiceNumber')! | formControl
+            "
+            (onChange)="generateService.serviceNo = $event"
+          ></core-input>
+          <core-select
+            class="block mx-4 w-80"
+            [label]="labels.vehicleType"
+            [items]="vehicleTypes | async"
+            [titleKey]="'vehicleTypeNameFa'"
+            [valueKey]="'vehicleTypeId'"
+            [defaultValue]="'BUS'"
+            (onItemSelected)="
+              generateService.vehicleType = $event; onVehicleTypeChange($event)
+            "
+            [inputFormControl]="
+              myForm.get('formControlVehicleType')! | formControl
+            "
+          >
+          </core-select>
+          <core-city-selector
+            class="block mx-4 w-80"
+            [placeholder]="labels.originCity"
+            (onSelect)="
+              generateService.originCity = $event; onOriginCityChange($event)
+            "
+            [defaultValue]="generateService.originCity"
+            [inputFormControl]="
+              myForm.get('formControlOriginCity')! | formControl
+            "
+          ></core-city-selector>
+          <core-select
+            class="block mx-4 w-80"
+            [label]="labels.originStation"
+            [items]="originStations | async"
+            [titleKey]="'officeName'"
+            [valueKey]="'officeId'"
+            [defaultValue]="generateService.originOffice?.officeId"
+            (onItemSelected)="generateService.originOffice = $event"
+            [inputFormControl]="
+              myForm.get('formControlOriginStation')! | formControl
+            "
+          ></core-select>
+          <core-date-picker
+            class="block mx-4 w-80"
+            [label]="labels.fromDate"
+            [canSelectToday]="true"
+            [defaultDate]="generateService.fromDate"
+            [inputFormControl]="
+              myForm.get('formControlFromDate')! | formControl
+            "
+          ></core-date-picker>
+          <core-city-selector
+            class="block mx-4 w-80"
+            [placeholder]="labels.destinationCity"
+            [canHighlightBackground]="true"
+            (onSelect)="
+              generateService.destinationCity = $event;
+              onDestinationCityChange($event)
+            "
+            [defaultValue]="generateService.destinationCity"
+            [inputFormControl]="
+              myForm.get('formControlDestinationCity')! | formControl
+            "
+          ></core-city-selector>
+          <core-select
+            class="block mx-4 w-80"
+            [label]="labels.destinationStation"
+            [items]="destinationStations | async"
+            [titleKey]="'officeName'"
+            [valueKey]="'officeId'"
+            [defaultValue]="generateService.destinationOffice?.officeId"
+            (onItemSelected)="generateService.destinationOffice = $event"
+            [inputFormControl]="
+              myForm.get('formControlDestinationStation')! | formControl
+            "
+            [canHighlightBackground]="true"
+          ></core-select>
+          <core-date-picker
+            class="block mx-4 w-80"
+            [label]="labels.toDate"
+            [defaultDate]="generateService.toDate"
+            [canSelectToday]="true"
+            [inputFormControl]="myForm.get('formControlToDate')! | formControl"
+          >
+          </core-date-picker>
+          <core-timepicker
+            class="block mx-4 w-80"
+            [defaultValue]="generateService.departureTime"
+            [placeholder]="labels.departureTime"
+            (onSelect)="generateService.departureTime = $event"
+            [canHighlightBackground]="true"
+            [inputFormControl]="
+              myForm.get('formControlDepartureTime')! | formControl
+            "
+          ></core-timepicker>
+          <core-timepicker
+            class="block mx-4 w-80"
+            [placeholder]="labels.receiveTime"
+            [defaultValue]="generateService.arrivalTime"
+            (onSelect)="generateService.arrivalTime = $event"
+            [inputFormControl]="
+              myForm.get('formControlReceiveTime')! | formControl
+            "
+          >
+          </core-timepicker
+          ><core-driver
+            *ngIf="isVehicleTypeBus"
+            class="block mx-4 w-80"
+            [placeholder]="labels.selectDriver"
+            [canHighlightBackground]="true"
+            [defaultValue]="generateService.driverCode"
+            (onSelect)="generateService.driverCode = $event.driverId"
+            [inputFormControl]="myForm.get('formControlDriver')! | formControl"
+          ></core-driver>
+        </div>
+        <div>
+          <core-pelak-search
+            *ngIf="isVehicleTypeBus"
+            class="block mx-4 w-96 cursor-pointer"
+            (onSelect)="onPelakChange($event)"
+            [canHighlightBackground]="true"
+            [defaultValue]="generateService.vehicle"
+          >
+          </core-pelak-search>
+        </div>
+        <div *ngIf="!isEditMode">
+          <p class="inline-block pb-3 text-lg font-semibold">
+            {{ labels.dayOfWeek }}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <core-checkbox
+              *ngFor="let day of daysOfWeek"
+              (onChange)="onChangeDaysOfWeek(day.key)"
+              [name]="day.key"
+              [checked]="
+                generateService.dayOfWeek
+                  ? generateService.dayOfWeek.includes(day.key)
+                  : false
+              "
+              [label]="day.value"
+            ></core-checkbox>
+          </div>
+        </div>
+        <div *ngIf="!isEditMode">
+          <div class="flex items-center gap-4">
+            <span class="flex-none py-3 text-lg font-semibold">{{
+              labels.wayStations
+            }}</span>
+            <core-btn
+              [colorState]="'success'"
+              (click)="openFormModal()"
+              class="flex-none !w-14"
+              ><div class="flex">
+                <add-icon class="h-5 w-5 fill-success-button-color">
+                </add-icon></div
+            ></core-btn>
+          </div>
+          <div class="">
+            <core-table
+              [columnsSchema]="columnsSchema"
+              (onColumnClicked)="onColumnClicked($event)"
+              [tableData]="tableData"
+              [loading]="false"
+            ></core-table>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-3 pt-2">
+          <core-btn
+            [isDisabled]="!myForm.valid || daysOfWeek.length === 0"
+            [colorState]="isEditMode ? 'warning' : 'success'"
+            class="md:col-start-4 sm:col-start-2"
+            [size]="'medium'"
+            [formGroup]="myForm"
+            (btnClicked)="onSubmit()"
+            >{{
+              isEditMode ? labels.editService : labels.buttonSubmit
+            }}</core-btn
+          >
+          <core-btn [theme]="'square'" [size]="'medium'" (click)="close()">{{
+            labels.buttonLabelCancel
+          }}</core-btn>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

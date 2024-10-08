@@ -1,0 +1,23 @@
+<core-card class="block min-w-64 m-5">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{ labels.voidConfirmDialogTitle }}</b>
+    <close-icon
+      (click)="close()"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+
+  <p class="max-w-lg px-6">{{ labels.voidConfirmDialogText }}</p>
+  <div class="grid grid-cols-4 gap-x-2 p-3 w-96" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close()">{{
+      labels.voidConfirmDialogCancelBtn
+    }}</core-btn>
+    <core-btn
+      (btnClicked)="voidManifest()"
+      [loading]="loading"
+      class="col-span-2"
+      [colorState]="'danger'"
+      >{{ labels.voidConfirmDialogConfirmBtn }}</core-btn
+    >
+  </div>
+</core-card>

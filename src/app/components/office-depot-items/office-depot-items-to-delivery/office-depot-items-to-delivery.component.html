@@ -1,0 +1,45 @@
+<div class="relative overflow-auto h-screen/90">
+  <div class="grid grid-cols-1">
+    <core-card class="col-span-1 justify-between mt-4 m-5">
+      <div class="flex justify-between p-3">
+        <div class="flex">
+          <b class="text-primary-text-color text-xl me-4">
+            {{ labels.contentCardTitle }}
+          </b>
+          <core-search-box
+            [placeholder]="labels.search"
+            (onChange)="searchText = $event; searchTextInTable()"
+          ></core-search-box>
+          <div class="grid grid-cols-2 gap-x-2">
+            <core-btn
+              class="col-start-2"
+              [colorState]="'success'"
+              (btnClicked)="onScannerClick()"
+            >
+              <div class="flex">
+                <barcode-scanner-icon
+                  class="h-5 sm:w-5 w-28 fill-success-button-color"
+                >
+                </barcode-scanner-icon>
+              </div>
+            </core-btn>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-1">
+        <core-spinner
+          *ngIf="loading"
+          class="w-full px-3 block"
+          type="line"
+        ></core-spinner>
+        <core-table
+          [columnsSchema]="columnsSchema"
+          [tableData]="tableData"
+          [loading]="loading"
+          [styleFilter]="styleFilter"
+          (onColumnClicked)="onColumnClicked($event)"
+        ></core-table>
+      </div>
+    </core-card>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="timepicker">
+  <div class="top">
+    <span class="h" (click)="onHourClick()" [class.active]="showHour">10</span
+    >:<span class="m" (click)="onMinutesClick()" [class.active]="showMin"
+      >15</span
+    >
+  </div>
+  <div class="circle">
+    <div *ngIf="showHour">
+      <div
+        class="hour"
+        *ngFor="let hour of hoursSubject | async"
+        [style]="{ left: hour.left, top: hour.top }"
+        (click)="onHourSelect(hour)"
+      >
+        {{ hour.text }}
+      </div>
+      <div
+        class="hour2"
+        *ngFor="let hour of hours2Subject | async"
+        [style]="{ left: hour.left, top: hour.top }"
+        (click)="onHourSelect(hour)"
+      >
+        {{ hour.text }}
+      </div>
+      <div class="mid"></div>
+    </div>
+    <div *ngIf="showMin">
+      <div
+        class="min"
+        *ngFor="let hour of minutesSubject | async"
+        [style]="{ left: hour.left, top: hour.top }"
+        (click)="onMinutesSelect(hour)"
+      >
+        {{ hour.text }}
+      </div>
+      <div class="mid"></div>
+    </div>
+  </div>
+  <div class="actions">
+    <core-btn
+      class="action ok"
+      (btnClicked)="submit()"
+      [colorState]="'success'"
+    >
+      انتخاب
+    </core-btn>
+    <core-btn class="action close" (btnClicked)="close()"> بستن </core-btn>
+  </div>
+</div>

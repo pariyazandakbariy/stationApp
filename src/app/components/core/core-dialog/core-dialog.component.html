@@ -1,0 +1,11 @@
+<div class="root" [hidden]="!selectedComponent" (click)="onRootClicked()">
+  <div
+    class="panel"
+    [style.width]="selectedConfig?.width"
+    (click)="onPanelClicked($event)"
+  >
+    <div *ngIf="selectedComponent">
+      <ng-container *ngComponentOutlet="selectedComponent" />
+    </div>
+  </div>
+</div>

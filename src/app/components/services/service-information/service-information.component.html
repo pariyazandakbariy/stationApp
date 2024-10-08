@@ -1,0 +1,152 @@
+<div class="grid">
+  <core-card class="m-5">
+    <core-spinner
+      *ngIf="loading"
+      class="w-full px-3 block"
+      type="line"
+    ></core-spinner>
+    <div class="flex flex-col justify-center items-center px-6 pt-5 min-h-36">
+      <span class="mb-3 text-lg font-bold">{{ labels.headerTitle }}</span>
+      <div class="flex gap-4 items-baseline">
+        <span class="mt-2">{{ labels.serviceNumber }}</span>
+
+        <core-input
+          type="number"
+          [inputFormControl]="form.get('serviceIdFormControl')! | formControl"
+          (onChange)="serviceId = $event"
+        ></core-input>
+        <div class="w-24">
+          <core-btn
+            class=""
+            [isDisabled]="!form.valid"
+            [theme]="'square'"
+            [size]="'medium'"
+            [colorState]="'primary'"
+            (click)="onSubmit()"
+            >{{ labels.submit }}</core-btn
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-span-1" *ngIf="serviceByDate">
+      <div class="content">
+        <div class="double-item">
+          <div class="content-item">
+            <div class="row-item">
+              <span class="title">{{ labels.serviceName }}</span>
+              <span
+                class="value"
+                detailViewerManager
+                [detailViewerName]="detailViewers.SERVICE"
+                [detailViewerData]="serviceByDate.serviceId"
+                >{{ serviceByDate.serviceId | persianDigits }}</span
+              >
+            </div>
+            <div class="row-item">
+              <span class="title">{{ labels.serviceNumber }} </span>
+              <span class="value">{{
+                serviceByDate.serviceNo | persianDigits
+              }}</span>
+            </div>
+          </div>
+          <div class="content-item background-item-gray">
+            <div class="row-item">
+              <span class="title">{{ labels.originCity }}</span>
+              <span class="value">{{
+                serviceByDate.originCity?.cityNameFa
+              }}</span>
+            </div>
+            <div class="row-item">
+              <span class="title"> {{ labels.destinationCity }}</span>
+              <span class="value">{{
+                serviceByDate.destinationCity?.cityNameFa
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="double-item">
+          <div class="content-item">
+            <div class="row-item">
+              <span class="title">{{ labels.originOffice }}</span>
+              <span class="value">{{
+                serviceByDate.originOffice?.officeName
+              }}</span>
+            </div>
+            <div class="row-item">
+              <span class="title">{{ labels.destinationOffice }} </span>
+              <span class="value">{{
+                serviceByDate.destinationOffice?.officeName
+              }}</span>
+            </div>
+          </div>
+          <div class="content-item background-item-gray">
+            <div class="row-item">
+              <span class="title">{{ labels.vehicleType }}</span>
+              <span class="value">{{
+                serviceByDate.vehicleType?.vehicleTypeNameFa
+              }}</span>
+            </div>
+            <div class="row-item">
+              <span class="title">{{ labels.durationMinutes }} </span>
+              <span class="value">{{
+                serviceByDate.durationMinutes | timeFormat | persianDigits
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="double-item">
+          <div class="content-item">
+            <div class="row-item">
+              <span class="title">{{ labels.driverName }}</span>
+              <span
+                class="value"
+                detailViewerManager
+                [detailViewerName]="detailViewers.DRIVER"
+                [detailViewerData]="serviceByDate.driver?.driverCode"
+                >{{ serviceByDate.driver?.driverFullName }}</span
+              >
+            </div>
+            <div class="row-item">
+              <span class="title">{{ labels.driverPhone }} </span>
+              <span class="value">{{
+                serviceByDate.driver?.driverMobilePhone | persianDigits
+              }}</span>
+            </div>
+          </div>
+          <div class="content-item background-item-gray">
+            <div class="row-item">
+              <span class="title">{{ labels.arrivalDateTime }}</span>
+              <span class="value">{{
+                serviceByDate.arrivalDateTime
+                  | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                  | persianDigits
+              }}</span>
+            </div>
+            <div class="row-item">
+              <span class="title">{{ labels.departureDateTime }} </span>
+              <span class="value">{{
+                serviceByDate.departureDateTime
+                  | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                  | persianDigits
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="double-item">
+          <div class="content-item">
+            <div class="row-item">
+              <span class="title">{{ labels.carrier }}</span>
+              <span class="value">{{
+                serviceByDate.carrier?.carrierNameFa
+              }}</span>
+            </div>
+            <div class="row-item">
+              <span class="title"></span>
+              <span class="value"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

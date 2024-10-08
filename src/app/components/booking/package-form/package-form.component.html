@@ -1,0 +1,78 @@
+<div
+  class="flex flex-col bg-white gap-4 ms-4 me-4 mb-4 border-2 border-slate-100 shadow-lg rounded-lg pt-6 pb-6 ps-3 pe-3"
+>
+  <div class="grid justify-end">
+    <remove-icon
+      *ngIf="packageInfoLength != 1"
+      (click)="remove()"
+      class="hover:cursor-pointer w-6"
+    ></remove-icon>
+  </div>
+  <core-select
+    [titleKey]="'packageTypeName_FA'"
+    [valueKey]="'packageTypeID'"
+    [label]="labels.packageType"
+    [items]="packageTypes | async"
+    [inputFormControl]="myForm.get('formControlPackageType')! | formControl"
+    (onItemSelected)="
+      packageInfo.packageType = $event; checkForm(); onPackageTypeChange($event)
+    "
+  ></core-select>
+  <core-select
+    [titleKey]="'packageTypeSizeName_FA'"
+    [valueKey]="'packageTypeSizeID'"
+    [label]="labels.packageSize"
+    [items]="filteredPackageSizeTypes | async"
+    (onItemSelected)="
+      packageInfo.packageSizeType = $event; onPackageSizeChange()
+    "
+  ></core-select>
+  <div class="flex gap-3" *ngIf="isSizeManually">
+    <core-input
+      class="flex-1"
+      type="number"
+      placeholder="{{ labels.length }}"
+      [inputFormControl]="myForm.get('formControlLength')! | formControl"
+      (onChange)="packageInfo.packageSize!.x = $event; checkForm()"
+    >
+    </core-input>
+    <core-input
+      class="flex-1"
+      type="number"
+      placeholder="{{ labels.width }}"
+      [inputFormControl]="myForm.get('formControlWidth')! | formControl"
+      (onChange)="packageInfo.packageSize!.y = $event; checkForm()"
+    >
+    </core-input>
+    <core-input
+      class="flex-1"
+      type="number"
+      placeholder="{{ labels.height }}"
+      [inputFormControl]="myForm.get('formControlHeight')! | formControl"
+      (onChange)="packageInfo.packageSize!.z = $event; checkForm()"
+    >
+    </core-input>
+  </div>
+  <core-select
+    [titleKey]="'exceptionTypeName_FA'"
+    [valueKey]="'exceptionTypeID'"
+    [label]="labels.ProductType"
+    [items]="exceptionTypes | async"
+    [inputFormControl]="myForm.get('formControlExceptionType')! | formControl"
+    (onItemSelected)="packageInfo.exceptionType = $event; checkForm()"
+  ></core-select>
+  <core-input
+    type="number"
+    placeholder="{{ labels.weight }}"
+    [inputFormControl]="myForm.get('formControlWeight')! | formControl"
+    (onChange)="packageInfo.packageWeight = $event; checkForm()"
+  >
+  </core-input>
+  <core-input
+    type="number"
+    placeholder="{{ labels.count }}"
+    [inputFormControl]="myForm.get('formControlCount')! | formControl"
+    (onChange)="packageInfo.QTY = $event; checkForm()"
+  >
+  </core-input>
+</div>

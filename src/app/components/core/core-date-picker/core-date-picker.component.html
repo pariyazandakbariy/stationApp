@@ -1,0 +1,14 @@
+<core-input
+  [placeholder]="label"
+  [inputFormControl]="_inputFormControl"
+  (click)="isOpenCalendar = true"
+>
+</core-input>
+<lib-nira-date-picker
+  [(isOpenCalendar)]="isOpenCalendar"
+  [defaultDate]="date ? date : defaultDate"
+  (datePickerResult)="onDatePickerResult($event)"
+  [selectToday]="canSelectToday"
+  (todayDate)="onTodayDate($event)"
+>
+</lib-nira-date-picker>

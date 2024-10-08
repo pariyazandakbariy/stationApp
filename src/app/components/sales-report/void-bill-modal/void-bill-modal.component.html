@@ -1,0 +1,32 @@
+<core-card class="block min-w-72">
+  <div class="flex mb-6 justify-between bg-background-color w-full">
+    <b class="m-3 self-center">{{ labels.vildBillTitle }}</b>
+    <close-icon
+      (click)="close()"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+
+  <div class="max-w-lg px-6 flex flex-col space-y-4">
+    <p>{{ labels.reasonVoid }}</p>
+    <core-textarea
+      [placeholder]="labels.commentVoidBill"
+      [textareaFormControl]="voidBillForm.get('commentVoidBill')! | formControl"
+    ></core-textarea>
+  </div>
+
+  <div class="grid grid-cols-4 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close()">
+      {{ labels.voidBillCancelBtn }}
+    </core-btn>
+
+    <core-btn
+      (btnClicked)="confirm()"
+      [isDisabled]="!voidBillForm.valid"
+      class="col-span-1"
+      [colorState]="'danger'"
+    >
+      {{ labels.voidBillConfirmBtn }}
+    </core-btn>
+  </div>
+</core-card>

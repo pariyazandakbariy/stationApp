@@ -1,0 +1,80 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{
+      config.data ? labels.editPrinter : labels.addPrinter
+    }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <core-input
+    (onChange)="printer.name = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderPrinterName"
+    [inputFormControl]="myForm.get('formControlName')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="printer.type = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderPrinterType"
+    [inputFormControl]="myForm.get('formControlType')! | formControl"
+  ></core-input>
+
+  <core-input
+    (onChange)="printer.channel = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderChannel"
+    [inputFormControl]="myForm.get('formControlChannel')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="printer.brand = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderBrand"
+    [inputFormControl]="myForm.get('formControlBrand')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="printer.model = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderModel"
+    [inputFormControl]="myForm.get('formControlModel')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="printer.printerNo = +$event"
+    class="block mx-4 w-80"
+    [type]="'number'"
+    [placeholder]="labels.tableHeaderPrinterNo"
+    [inputFormControl]="myForm.get('formControlPrinterNo')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="printer.driverAddress = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderDriverAddress"
+    [inputFormControl]="myForm.get('formControlDriverAddress')! | formControl"
+  ></core-input>
+
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      class="col-span-1"
+      [formGroup]="myForm"
+      [colorState]="config.data ? 'warning' : 'success'"
+    >
+      {{ config.data ? labels.edit : labels.add }}
+    </core-btn>
+    <core-btn
+      *ngIf="config.data"
+      [loading]="loadingDelete"
+      (btnClicked)="delete()"
+      class="col-span-1"
+      [colorState]="'danger'"
+      [confirmDialog]="confirmDelete"
+      >{{ labels.delete }}</core-btn
+    >
+  </div>
+</core-card>

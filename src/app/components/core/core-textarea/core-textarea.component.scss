@@ -1,0 +1,62 @@
+.text-area-sec {
+  background: white;
+  position: relative;
+
+  label {
+    position: absolute;
+    right: 20px;
+    top: 8px;
+    color: gray;
+    font-size: 14px;
+    padding: 0px 8px;
+    border-radius: 15px;
+    pointer-events: none;
+    transition: 0.2s;
+  }
+
+  textarea {
+    direction: rtl;
+    width: 100%;
+    padding: 16px;
+    outline: none;
+    caret-color: rgba(2, 2, 2, 0.7);
+    background-color: rgba(242, 244, 247, 0.15);
+    color: rgba(0, 0, 0, 0.7);
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+
+  textarea {
+    &:focus + label,
+    &.have-value + label {
+      top: -10px;
+      font-size: 0.7rem;
+      z-index: 1;
+    }
+
+    &:focus + label::after,
+    &.have-value + label::after {
+      content: "";
+      display: block;
+      background: white;
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      top: 9px;
+      right: 0;
+      transition: 0.3s;
+      z-index: -1;
+    }
+  }
+}
+.label-error {
+  color: red;
+  font-size: 13px;
+  margin-block-start: 4px;
+  min-height: 21px;
+  text-align: start;
+}
+.error textarea {
+  border: 1px solid #fe5f5f;
+}

@@ -1,0 +1,9 @@
+<div class="flex gap-3">
+  <input
+    type="checkbox"
+    [name]="name"
+    [(ngModel)]="checked"
+    (change)="change($event)"
+  />
+  <span class="checkmark">{{ label }}</span>
+</div>

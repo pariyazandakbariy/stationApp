@@ -1,0 +1,107 @@
+<div class="flex flex-col pb-2">
+  <div class="flex justify-between p-5">
+    <div class="flex">
+      <b class="text-primary-text-color text-lg me-4">
+        {{ labels.contentCardTitle }}
+      </b>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-2">
+      <core-btn
+        class="col-start-2"
+        [colorState]="'success'"
+        (btnClicked)="openFormModal()"
+      >
+        <div class="flex">
+          <add-icon class="h-5 w-5 fill-success-button-color"> </add-icon>
+          {{ labels.addButtonName }}
+        </div>
+      </core-btn>
+    </div>
+  </div>
+  <core-card class="flex flex-col mx-5">
+    <div class="p-4 pt-8">
+      <core-city-selector
+        class="flex-1"
+        [placeholder]="labels.destinationCity"
+        (onSelect)="onDestinationCityChange($event)"
+        [defaultValue]="destinationCity"
+        [inputFormControl]="
+          myForm.get('formControlDestinationCity')! | formControl
+        "
+      ></core-city-selector>
+      <core-select
+        [label]="labels.destinationStation"
+        [items]="destinationStations | async"
+        [titleKey]="'officeName'"
+        [valueKey]="'officeId'"
+        [defaultValue]="destinationOffice?.officeId"
+        [inputFormControl]="
+          myForm.get('formControlDestinationStation')! | formControl
+        "
+        (onItemSelected)="selectedStation = $event"
+      ></core-select
+      ><core-btn
+        class="col-start-3"
+        [theme]="'square'"
+        [colorState]="'success'"
+        [size]="'medium'"
+        [loading]="loadingSearchService"
+        [isDisabled]="!myForm.valid"
+        (click)="onSearchServiceSubmit()"
+        >{{ labels.buttonSearchService }}</core-btn
+      >
+    </div>
+  </core-card>
+  <div class="flex flex-col justify-between my-5" *ngIf="services.length > 0">
+    <div class="flex flex-col gap-4 mx-5">
+      <div
+        *ngFor="let item of services; let i = index"
+        (click)="onServiceSelect(item)"
+        [ngClass]="{
+          '!bg-selected-item-color': selectedService === item
+        }"
+        class="relative text-xs flex flex-row border-2 border-gray-300 rounded-lg text-primary-text-color shadow-md bg-white font-extrabold py-2 px-4 p-4 cursor-pointer"
+      >
+        <div class="w-6 h-6 absolute left-1">
+          <edit-square-icon
+            class="fill-slate-600"
+            (click)="editServiceClicked(item)"
+          ></edit-square-icon>
+        </div>
+        <div class="flex-1 flex flex-col space-y-2.5">
+          <span class="flex-1"
+            >{{ item.carrier?.carrierNameFa }} {{ item.serviceNo }}</span
+          >
+          <span class="flex-1"
+            >{{ item.originCity?.cityNameFa }} به
+            {{ item.destinationCity?.cityNameFa }}</span
+          >
+        </div>
+        <div class="flex-1 flex flex-col space-y-2.5">
+          <span class="flex-1 text-secondary-text-color font-medium">
+            <span class="p-1">{{ item.driver?.driverFullName }}</span>
+          </span>
+          <span class="flex-1 text-secondary-text-color font-medium">
+            <span class="p-1" dir="ltr">{{
+              item.departureDateTime
+                | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                | persianDigits
+            }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="m-5">
+      <core-btn
+        [isDisabled]="selectedService == undefined"
+        [theme]="'square'"
+        [colorState]="'success'"
+        [size]="'medium'"
+        [loading]="loadingBoardItems"
+        (click)="generateServiceManifest()"
+        >{{ labels.buttonSubmit }}</core-btn
+      >
+    </div>
+  </div>
+</div>

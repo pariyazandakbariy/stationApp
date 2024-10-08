@@ -1,0 +1,66 @@
+<core-card class="block min-w-80 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{
+      config.data ? labels.tableHeaderEdit : labels.tableHeaderAdd
+    }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <core-input
+    (onChange)="traditionalManifest.manifestNumber = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableTraditionalManifestID"
+    [inputFormControl]="myForm.get('formControlManifestNumber')! | formControl"
+  ></core-input>
+  <core-city-selector
+    class="block w-80 mx-4"
+    [placeholder]="labels.tableOriginCity"
+    [defaultValue]="traditionalManifest.originCity"
+    (onSelect)="traditionalManifest.originCity = $event"
+    [inputFormControl]="myForm.get('formControlOriginCity')! | formControl"
+  ></core-city-selector>
+
+  <core-service-selector
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableServiceCode"
+    [city]="traditionalManifest.originCity"
+    (onSelect)="traditionalManifest.service = $event"
+    [inputFormControl]="myForm.get('formControlService')! | formControl"
+  ></core-service-selector>
+
+  <core-date-picker
+    [canSelectToday]="true"
+    [label]="labels.tableManifestDateTime"
+    class="block mx-4 w-80"
+    [inputFormControl]="
+      myForm.get('formControlManifestDateTime')! | formControl
+    "
+  >
+  </core-date-picker>
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      [formGroup]="myForm"
+      class="col-span-1"
+      [colorState]="config.data ? 'warning' : 'success'"
+    >
+      {{ config.data ? labels.edit : labels.add }}
+    </core-btn>
+    <core-btn
+      *ngIf="config.data"
+      [loading]="loadingDelete"
+      (btnClicked)="delete()"
+      class="col-span-1"
+      [colorState]="'danger'"
+      [confirmDialog]="confirmDelete"
+      >{{ labels.delete }}</core-btn
+    >
+  </div>
+</core-card>

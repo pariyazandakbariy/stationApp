@@ -1,0 +1,104 @@
+<core-card class="block w-96 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-4 self-center">{{ labels.headerTitle }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div *ngIf="loading">
+    <core-spinner
+      [size]="56"
+      [colorState]="'primary'"
+      class="w-full px-3 flex items-center justify-center"
+      type="circle"
+    ></core-spinner>
+    <span class="w-full px-3 flex items-center justify-center py-8">{{
+      labels.pleaseWait
+    }}</span>
+  </div>
+  <div class="col-span-1" *ngIf="driver">
+    <div class="flex flex-col flex-wrap flex-[8] mx-4">
+      <div class="flex flex-col flex-1">
+        <div
+          class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+        >
+          <div class="w-full flex items-center">
+            <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+              labels.firstName
+            }}</span>
+            <span class="text-[13px] font-medium text-inherit">{{
+              driver.firstName
+            }}</span>
+          </div>
+        </div>
+        <div class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg">
+          <div class="w-full flex items-center">
+            <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+              labels.lastName
+            }}</span>
+            <span class="text-[13px] font-medium text-inherit">{{
+              driver.lastName
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col px-4">
+      <div
+        class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+      >
+        <div class="w-full flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+            labels.mobilePhone
+          }}</span>
+          <span
+            class="text-[13px] font-medium text-inherit"
+            [copyToClipboard]="driver.mobilePhone"
+            >{{ driver.mobilePhone | persianDigits }}</span
+          >
+        </div>
+      </div>
+      <div class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg">
+        <div class="w-full flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24"
+            >{{ labels.nationalCode }}
+          </span>
+          <span
+            class="text-[13px] font-medium text-inherit"
+            [copyToClipboard]="driver.nationalCode"
+            >{{ driver.nationalCode | persianDigits }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col px-4">
+      <div
+        class="flex min-w-[285px] flex-1 px-2 py-3 rounded-lg background-item-gray"
+      >
+        <div class="w-full flex items-center">
+          <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+            labels.gender
+          }}</span>
+          <span class="text-[13px] font-medium text-inherit">{{
+            driver.gender.title
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-x-2 p-4 mt-3" dir="ltr">
+      <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+        labels.close
+      }}</core-btn>
+      <core-btn
+        [loading]="loading"
+        (btnClicked)="update()"
+        class="col-span-1"
+        [colorState]="'warning'"
+      >
+        {{ labels.edit }}
+      </core-btn>
+    </div>
+  </div>
+  <core-network-error *ngIf="error !== undefined"></core-network-error>
+</core-card>

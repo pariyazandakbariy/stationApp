@@ -1,0 +1,17 @@
+<ng-container [ngSwitch]="data.refType">
+  <span
+    *ngSwitchCase="'MANIFEST'"
+    detailViewerManager
+    [detailViewerName]="detailViewers.MANIFEST"
+    [detailViewerData]="data.refCode"
+    >{{ data.refCode }}</span
+  >
+  <span
+    *ngSwitchCase="'BILL'"
+    detailViewerManager
+    [detailViewerName]="detailViewers.BILL"
+    [detailViewerData]="data.refCode"
+    >{{ data.refCode }}</span
+  >
+  <span *ngSwitchDefault>{{ data.refCode }}</span>
+</ng-container>

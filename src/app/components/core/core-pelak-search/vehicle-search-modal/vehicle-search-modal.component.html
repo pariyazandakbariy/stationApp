@@ -1,0 +1,72 @@
+<div class="relative z-50 w-128">
+  <core-card class="m-5">
+    <p class="p-4 ms-3 me-3 text-lg">
+      <b>{{ labels.searchVehicle }}</b>
+    </p>
+    <div class="flex h-11 items-stretch pe-5 ps-5 bg-white mx-6 mt-2">
+      <core-pelak
+        class="w-96 bg-transparent focus:outline-none"
+        (onChange)="onPelakChange($event)"
+        [isDisable]="false"
+      >
+      </core-pelak>
+      <div class="flex flex-1 px-3 cursor-pointer" (click)="onSubmit()">
+        <search-icon class="w-7"></search-icon>
+      </div>
+    </div>
+
+    <div class="pb-3">
+      <div class="min-h-[250px] ms-5 me-5 mt-4 mb-4 overflow-y-auto max-h-80">
+        <div
+          class="flex items-center gap-3 p-2 rounded-lg cursor-pointer"
+          [ngClass]="{ selected: selectedItem == item }"
+          (click)="onItemClick(item)"
+          *ngFor="let item of vehicles | async"
+        >
+          <div class="flex justify-center w-12 h-12 rounded-3xl bg-sky-100">
+            <app-local-shipping-icon
+              class="fill-sky-400 w-9"
+            ></app-local-shipping-icon>
+          </div>
+          <div class="flex flex-col">
+            <p class="my-1">
+              {{ item.ownerFullName }}
+            </p>
+            <p class="text-secondary-text-color">
+              <span>{{
+                item.registerFormat.columnFour + " " | persianDigits
+              }}</span
+              ><span>{{
+                item.registerFormat.columnThree + " " | persianDigits
+              }}</span
+              ><span>{{
+                item.registerFormat.columnTwo + " " | persianDigits
+              }}</span
+              ><span>{{
+                item.registerFormat.columnOne + " " | persianDigits
+              }}</span>
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="(vehicles | async)?.length === 0 && !loading">
+          <div class="text-center pt-10">
+            <warning-icon
+              class="inline-block w-24 fill-secondary-text-color"
+            ></warning-icon>
+            <b class="block text-secondary-text-color">{{
+              labels.nothingFound
+            }}</b>
+          </div>
+        </div>
+
+        <div
+          *ngIf="(vehicles | async)?.length === 0 && loading"
+          class="text-center"
+        >
+          <core-spinner [size]="56" class="inline-block mt-20"></core-spinner>
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

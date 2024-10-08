@@ -1,0 +1,128 @@
+<div class="p-2 overflow-x-auto">
+  <table
+    id="coreTable"
+    *ngIf="!isRunningOnSmallScreen || !responsive; else smallDeviceCard"
+  >
+    <tr>
+      <th
+        class="cursor-pointer text-center"
+        (click)="sortByHeader(column)"
+        *ngFor="let column of columnsSchema"
+      >
+        <span
+          class="p-2 relative"
+          [ngStyle]="{
+            minWidth:
+              column.type === columnsTypes.ACTION_BUTTONS
+                ? column.data.length * 30 + 'px'
+                : '',
+            display:
+              column.type === columnsTypes.ACTION_BUTTONS ? 'inline-block' : ''
+          }"
+          >{{ column.label }}
+          <app-sort-down-icon
+            class="w-2 h-2 fill-sort-arrow-color inline-block absolute top-3 right-[-3px]"
+            *ngIf="sortDetail?.key == column.key && sortDetail?.sort === 'asc'"
+          ></app-sort-down-icon>
+          <app-sort-up-icon
+            class="w-2 h-2 fill-sort-arrow-color inline-block absolute top-3 right-[-3px]"
+            *ngIf="sortDetail?.key == column.key && sortDetail?.sort === 'desc'"
+          ></app-sort-up-icon>
+          <app-sort-solid-icon
+            class="w-2 h-2 fill-sort-arrow-color inline-block absolute top-3 right-[-3px]"
+            *ngIf="sortDetail?.key !== column.key"
+          ></app-sort-solid-icon>
+        </span>
+      </th>
+    </tr>
+    <tr *ngFor="let data of sortedTableData">
+      <td
+        *ngFor="let column of columnsSchema"
+        [class]="styleFilter ? styleFilter(data) : ''"
+      >
+        <app-core-table-column-manager
+          *ngIf="column.type != columnsTypes.MULTI_COLUMN; else elseBlock"
+          [rowSelector]="rowSelector"
+          (onColumnClicked)="columnClicked($event)"
+          [data]="data"
+          [column]="column"
+        ></app-core-table-column-manager>
+        <ng-template #elseBlock>
+          <app-core-table-column-manager
+            *ngFor="let childColumn of column.columns; let i = index"
+            [rowSelector]="rowSelector"
+            (onColumnClicked)="columnClicked($event)"
+            [data]="data"
+            [column]="childColumn"
+          >
+            <span *ngIf="i > 0">-</span>
+          </app-core-table-column-manager>
+        </ng-template>
+      </td>
+    </tr>
+  </table>
+  <ng-template #smallDeviceCard>
+    <div>
+      <core-card
+        *ngFor="let data of sortedTableData"
+        [cardClass]="
+           styleFilter?.(data) !== ''
+    ? styleFilter?.(data) + ' m-4 p-4 relative'
+    : 'bg-background-card-color m-4 p-4 relative'
+        "
+      >
+        <div
+          class="leading-8"
+          *ngFor="let column of columnsSchema"
+          [class]="
+            column.type === columnsTypes.ACTION_BUTTONS
+              ? 'actionButtons'
+              : column.type === columnsTypes.ROW_SELECTOR
+              ? 'selectRow'
+              : ''
+          "
+        >
+          <span
+            *ngIf="
+              column.type !== columnsTypes.ACTION_BUTTONS &&
+              column.type !== columnsTypes.ROW_SELECTOR
+            "
+            class="text-secondary-text-color"
+          >
+            {{ column.label }} :
+          </span>
+          <span class="text-primary-text-color font-semibold">
+            <app-core-table-card-manager
+              *ngIf="
+                column.type != columnsTypes.MULTI_COLUMN;
+                else cardManagerElseBlock
+              "
+              [rowSelector]="rowSelector"
+              (onColumnClicked)="columnClicked($event)"
+              [data]="data"
+              [column]="column"
+            >
+            </app-core-table-card-manager>
+
+            <ng-template #cardManagerElseBlock>
+              <app-core-table-card-manager
+                *ngFor="let childColumn of column.columns; let i = index"
+                [rowSelector]="rowSelector"
+                (onColumnClicked)="columnClicked($event)"
+                [data]="data"
+                [column]="childColumn"
+              >
+                <span *ngIf="i > 0">-</span>
+              </app-core-table-card-manager>
+            </ng-template>
+          </span>
+        </div>
+      </core-card>
+    </div>
+  </ng-template>
+  <core-table-no-content
+    *ngIf="!loading"
+    [tableData]="sortedTableData"
+    [loading]="loading"
+  ></core-table-no-content>
+</div>

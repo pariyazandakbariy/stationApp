@@ -1,0 +1,30 @@
+<div class="bg-background-color flex h-screen items-center justify-center">
+  <div class="bg-white flex flex-col rounded-lg shadow-md w-96 h-56 p-6">
+    <span class="mb-3">لطفا آدرس مورد نظر خود را وارد نمایید</span>
+    <core-input
+      (onChange)="url = $event"
+      placeholder="آدرس"
+      [inputFormControl]="masterApiFormControl"
+    ></core-input>
+
+    <div class="text-center">
+      <span class="m-2 w-32 inline-block">
+        <core-btn
+          class="mt-6 button"
+          [colorState]="'primary'"
+          (btnClicked)="setChangeApi()"
+          >ثبت تغییرات</core-btn
+        >
+      </span>
+      <span class="m-2 w-32 inline-block">
+        <core-btn
+          class="mt-6 button"
+          [colorState]="'primary'"
+          (btnClicked)="setChangeApi()"
+          (btnClicked)="resetApi()"
+          >بازنشانی تنظیمات</core-btn
+        >
+      </span>
+    </div>
+  </div>
+</div>

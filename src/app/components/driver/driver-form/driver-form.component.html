@@ -1,0 +1,73 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{
+      config.data ? labels.editPrinter : labels.addPrinter
+    }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <core-input
+    [inputFormControl]="myForm.get('formControlFirstName')! | formControl"
+    (onChange)="driver.firstName = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderFirstName"
+  ></core-input>
+  <core-input
+    [inputFormControl]="myForm.get('formControlLastName')! | formControl"
+    (onChange)="driver.lastName = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderLastName"
+  ></core-input>
+
+  <core-select
+    class="block mx-4 w-80"
+    [titleKey]="'title'"
+    [valueKey]="'value'"
+    [defaultValue]="driver.gender?.value"
+    [label]="labels.tableHeaderGender"
+    [items]="gender | async"
+    [inputFormControl]="myForm.get('formControlGender')! | formControl"
+    (onItemSelected)="driver.gender = $event"
+  ></core-select>
+
+  <core-input
+    [inputFormControl]="myForm.get('formControlMobilePhone')! | formControl"
+    (onChange)="driver.mobilePhone = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderMobilePhone"
+  ></core-input>
+
+  <core-input
+    [inputFormControl]="myForm.get('formControlNationalCode')! | formControl"
+    (onChange)="driver.nationalCode = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.tableHeaderNationalCode"
+  ></core-input>
+
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      class="col-span-1"
+      [formGroup]="myForm"
+      [colorState]="config.data ? 'warning' : 'success'"
+    >
+      {{ config.data ? labels.edit : labels.add }}
+    </core-btn>
+    <core-btn
+      *ngIf="config.data"
+      [loading]="loadingDelete"
+      (btnClicked)="delete()"
+      class="col-span-1"
+      [colorState]="'danger'"
+      [confirmDialog]="confirmDelete"
+      >{{ labels.delete }}</core-btn
+    >
+  </div>
+</core-card>

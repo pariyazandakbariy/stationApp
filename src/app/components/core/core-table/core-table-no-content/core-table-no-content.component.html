@@ -1,0 +1,8 @@
+<div *ngIf="tableData; let data" class="text-center mt-10 mb-10">
+  <ng-container *ngIf="$any(data).length == 0 && !loading">
+    <warning-icon
+      class="inline-block w-24 fill-table-warning-color"
+    ></warning-icon>
+    <b class="block text-table-warning-color">موردی یافت نشد</b></ng-container
+  >
+</div>

@@ -1,0 +1,598 @@
+<core-spinner
+  *ngIf="loading; else elseTemplate"
+  class="w-full px-3 flex items-center justify-center min-h-screen"
+  type="circle"
+></core-spinner>
+<ng-template #elseTemplate>
+  <div
+    class="p-4 text-primary-text-color"
+    *ngIf="error == undefined; else elseTemplateError"
+  >
+    <div class="flex justify-end">
+      <div class="w-28">
+        <button
+          class="print-button primary square"
+          printSectionId="print-section"
+          ngxPrint
+          [useExistingCss]="true"
+        >
+          پرینت / دانلود
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-auto h-[calc(100vh-120px)] grid grid-cols-1 p-4">
+      <div id="print-section">
+        <div class="rtl-grid text-primary-text-color text-xs print-box">
+          <div class="flex justify-between h-20 items-center">
+            <div class="flex-1 flex-row">
+              <div class="flex gap-x-2 p-1 items-center">
+                <b>
+                  <span class="block w-full">تاریخ صدور / Issue Date:</span>
+                </b>
+
+                <div class="flex flex-row-reverse gap-x-2">
+                  <b>{{
+                    issueBill?.bill?.issueSolarDate ?? "" | persianDigits
+                  }}</b>
+                  <b>{{ issueBill?.bill?.issueTime ?? "" | persianDigits }}</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex-1 text-center flex-col items-center">
+              <b class="flex flex-col">
+                <span>بارنامه </span>
+                <span>WAY BILL</span>
+              </b>
+            </div>
+
+            <div class="flex-1 h-20 flex mx-2 overflow-hidden justify-end">
+              <img class="object-fill" src="../../../assets/images/logo.png" />
+            </div>
+          </div>
+          <b class="flex justify-between items-baseline gap-x-5 my-2">
+            <div class="w-full flex gap-x-4 p-1">
+              <span>شماره بارنامه / AWB No:</span>
+              <span>{{ issueBill?.bill?.billCode }}</span>
+            </div>
+          </b>
+          <div>
+            <div class="flex w-full gap-x-1">
+              <div class="flex-1 flex-col">
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-1"
+                >
+                  <span>مبدا :</span>
+                  <strong>{{ issueBill?.bill?.originCity?.cityNameFa }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >From :</span
+                  >
+                </div>
+                <div class="w-full border-r border-l border-slate-900">
+                  <div
+                    class="w-full flex justify-between items-baseline border-b border-slate-900 p-1 bg-secondary-background-color"
+                  >
+                    <span>نام و آدرس فرستنده</span>
+                    <span
+                      class="text-secondary-text-color text-xxs"
+                      style="direction: ltr"
+                      >Shippers's Name and address</span
+                    >
+                  </div>
+                  <strong class="flex flex-col p-1">
+                    <span class="leading-6">{{
+                      issueBill?.bill?.senderFullName
+                    }}</span>
+                    <textarea
+                      readonly
+                      rows="4"
+                      cols="50"
+                      class="bg-transparent focus:outline-none resize-none"
+                      >{{
+                        issueBill?.bill?.senderProfileAddress?.postalAddress
+                      }}</textarea
+                    >
+                  </strong>
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 border-b-0 p-1"
+                >
+                  <span>شماره همراه فرستنده :</span>
+                  <strong>{{ issueBill?.bill?.senderMobilePhone }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Phone No :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-1"
+                >
+                  <span>کد پستی فرستنده:</span>
+                  <strong>{{
+                    issueBill?.bill?.senderProfileAddress?.postalCode
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Shippers's Postal Code :</span
+                  >
+                </div>
+              </div>
+              <div class="flex-1 flex-col">
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-1"
+                >
+                  <span>مقصد :</span>
+                  <strong>{{
+                    issueBill?.bill?.destinationCity?.cityNameFa
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >To :</span
+                  >
+                </div>
+                <div class="w-full border-r border-l border-slate-900">
+                  <div
+                    class="w-full flex justify-between items-baseline border-b border-slate-900 p-1 bg-secondary-background-color"
+                  >
+                    <span>نام و آدرس گیرنده</span>
+                    <span
+                      class="text-secondary-text-color text-xxs"
+                      style="direction: ltr"
+                      >Consignee's Name and address</span
+                    >
+                  </div>
+                  <strong class="flex flex-col p-1">
+                    <span class="leading-6">{{
+                      issueBill?.bill?.receiverFullName
+                    }}</span>
+                    <textarea
+                      readonly
+                      rows="4"
+                      cols="50"
+                      class="bg-transparent focus:outline-none resize-none"
+                      >{{
+                        issueBill?.bill?.receiverProfileAddress?.postalAddress
+                      }}</textarea
+                    >
+                  </strong>
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 border-b-0 p-1"
+                >
+                  <span>شماره همراه گیرنده :</span>
+                  <strong>{{ issueBill?.bill?.receiverMobilePhone }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Phone No :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-1"
+                >
+                  <span>کد پستی گیرنده :</span>
+                  <strong>{{
+                    issueBill?.bill?.receiverProfileAddress?.postalCode
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Consignee's Postal Code :</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="flex items-baseline border border-slate-900 border-b-0 p-1 mt-2"
+              >
+                <span class="flex-1 grid justify-start"
+                  >مشخصات کالا و بسته بندی</span
+                >
+                <span
+                  class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                  >Description of Goods and Packing</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <div
+                  class="flex flex-col text-center gap-y-1 border border-slate-900 border-l-0"
+                  style="width: 450px"
+                >
+                  <span>ردیف</span>
+                  <span class="text-secondary-text-color text-xxs">Row</span>
+                </div>
+                <div
+                  class="flex flex-col text-center gap-y-1 border border-slate-900 border-l-0"
+                  style="width: 450px"
+                >
+                  <span>تعداد</span>
+                  <span class="text-secondary-text-color text-xxs">Number</span>
+                </div>
+                <div
+                  class="flex flex-col text-center gap-y-1 border border-slate-900 border-l-0"
+                  style="width: 450px"
+                >
+                  <span>نوع کالا</span>
+                  <span class="text-secondary-text-color text-xxs"
+                    >Product</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col text-center gap-y-1 border border-slate-900 border-l-0"
+                  style="width: 450px"
+                >
+                  <span>بسته بندی</span>
+                  <span class="text-secondary-text-color text-xxs"
+                    >Packing</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col text-center gap-y-1 border border-slate-900"
+                  style="width: 450px"
+                >
+                  <span>وزن / کیلوگرم</span>
+                  <span class="text-secondary-text-color text-xxs"
+                    >Weight / kg</span
+                  >
+                </div>
+              </div>
+              <div
+                *ngFor="let item of issueBill?.billItems; let index = index"
+                class="flex justify-between"
+              >
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ index + 1 }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.itemNo }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.exceptionType?.exceptionTypeName_FA }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.packageType?.packageTypeName_FA }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-l border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.weight }}
+                </div>
+              </div>
+            </div>
+            <div class="flex w-full gap-x-1 mt-2">
+              <div class="flex-1 flex-col">
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-1"
+                >
+                  <div class="w-full flex justify-between items-baseline">
+                    <strong> مبلغ کرایه </strong>
+                    <strong class="text-secondary-text-color text-xxs text-left"
+                      >F.Amount</strong
+                    >
+                  </div>
+                </div>
+                <div class="w-full flex justify-between">
+                  <div
+                    class="amount-table-with flex items-baseline border-r border-b border-slate-900 p-1"
+                  >
+                    <span class="flex-1 grid justify-start">هزینه ها</span>
+                    <span
+                      class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                      >Charges</span
+                    >
+                  </div>
+                  <div
+                    class="amount-table-with flex items-baseline border-r border-b border-l border-slate-900 p-1"
+                  >
+                    <span class="flex-1 grid justify-start">نقدی</span>
+                    <span
+                      class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                      >Chash</span
+                    >
+                  </div>
+                </div>
+
+                <div class="w-full flex justify-between">
+                  <div
+                    class="amount-table-with flex items-baseline border-r border-b border-slate-900 p-1"
+                  >
+                    <span class="flex-1 grid justify-start">کرایه بار</span>
+                    <span
+                      class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                      >Freight</span
+                    >
+                  </div>
+                  <div
+                    class="amount-table-with border-r border-b border-l border-slate-900 py-1 pr-4 pl-2"
+                  >
+                    <strong>{{
+                      issueBill?.bill?.freight | priceFormat : "IRR"
+                    }}</strong>
+                  </div>
+                </div>
+                <div class="w-full flex justify-between">
+                  <div
+                    class="amount-table-with flex items-baseline border-r border-b border-slate-900 p-1"
+                  >
+                    <span class="flex-1 grid justify-start">مالیات</span>
+                    <span
+                      class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                      >V.A.T</span
+                    >
+                  </div>
+                  <div
+                    class="amount-table-with border-r border-b border-l border-slate-900 py-1 pr-4 pl-2"
+                  >
+                    <strong>{{
+                      issueBill?.bill?.vat | priceFormat : "IRR"
+                    }}</strong>
+                  </div>
+                </div>
+                <div class="w-full flex justify-between">
+                  <div
+                    class="amount-table-with flex items-baseline border-r border-b border-slate-900 p-1"
+                  >
+                    <span class="flex-1 grid justify-start">عوارض و شارژ</span>
+                    <span
+                      class="flex-1 grid justify-end text-secondary-text-color text-xxs"
+                      >TotalCharges</span
+                    >
+                  </div>
+                  <div
+                    class="amount-table-with border-r border-b border-l border-slate-900 py-1 pr-4 pl-2"
+                  >
+                    <strong>{{
+                      issueBill?.bill?.totalCharges | priceFormat : "IRR"
+                    }}</strong>
+                  </div>
+                </div>
+                <div
+                  class="w-full border border-slate-900 flex justify-between mt-1"
+                >
+                  <div
+                    class="amount-bottom-table-with border-l border-slate-900"
+                  >
+                    <div class="border-b border-slate-900 p-1">
+                      <div class="text-right">جمع کل</div>
+                      <div class="text-secondary-text-color text-left text-xxs">
+                        TotalPrice
+                      </div>
+                    </div>
+                    <div class="my-2 p-1">
+                      <strong>{{
+                        issueBill?.bill?.totalPrice | priceFormat : "IRR"
+                      }}</strong>
+                    </div>
+                  </div>
+                  <div
+                    class="amount-bottom-table-with border-l border-slate-900"
+                  >
+                    <div class="border-b border-slate-900 p-1">
+                      <div class="text-right">پیش پرداخت</div>
+                      <div class="text-secondary-text-color text-xxs text-left">
+                        PrePayment
+                      </div>
+                    </div>
+                    <div class="my-2 p-1">
+                      <strong>{{
+                        issueBill?.bill?.prePayment | priceFormat : "IRR"
+                      }}</strong>
+                    </div>
+                  </div>
+                  <div class="amount-bottom-table-with">
+                    <div class="border-b border-slate-900 p-1">
+                      <div class="text-right">مبلغ باقیمانده</div>
+                      <div class="text-secondary-text-color text-xxs text-left">
+                        LeftPayment
+                      </div>
+                    </div>
+                    <div class="my-2 p-1">
+                      <strong>{{
+                        issueBill?.bill?.leftPayment | priceFormat : "IRR"
+                      }}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full border border-slate-900 border-b-0 p-1 mt-1">
+                  <div class="flex items-baseline h-8">
+                    <strong class="flex-1 grid justify-start"
+                      >شرح هزینه های متفرقه</strong
+                    >
+                    <strong
+                      class="flex-1 grid justify-end text-left text-xxs text-secondary-text-color"
+                      >Other Charges Details</strong
+                    >
+                  </div>
+                </div>
+                <div class="w-full border border-slate-900 border-b-0 p-1">
+                  <div class="flex items-baseline h-8">
+                    <strong class="flex-1 grid justify-start"
+                      >مهر و امضاء صادر کننده</strong
+                    >
+                    <strong
+                      class="flex-1 grid justify-end text-left text-xxs text-secondary-text-color"
+                      >Stamp & Signature Of Shippers</strong
+                    >
+                  </div>
+                </div>
+                <div class="w-full border border-slate-900 p-1">
+                  <div class="flex items-baseline h-8">
+                    <strong class="flex-1 grid justify-start"
+                      >امضاء فرستنده یا نماینده فرستنده</strong
+                    >
+                    <strong
+                      class="flex-1 grid justify-end text-left text-xxs text-secondary-text-color"
+                      >Signature Of Shippers Or Shippers' Agent</strong
+                    >
+                  </div>
+                </div>
+                <hr class="my-2" />
+                <div class="flex justify-between mt-3 items-center">
+                  <div>Powerd by Nira</div>
+                  <div>
+                    <img src="../../../assets/images/QRcode.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1 flex-col">
+                <div class="w-full flex flex-col border border-slate-900 p-1">
+                  <div
+                    class="w-full py-1 flex justify-center border-b-2 border-secondary-background-color"
+                  >
+                    <strong> کد بیمه نامه </strong>
+                  </div>
+                  <div
+                    class="w-full py-1 flex justify-center px-0 border-b-2 border-secondary-background-color"
+                  >
+                    فاقد بیمه نامه معتبر
+                  </div>
+                  <div class="flex items-center mt-1 p-1">
+                    <span style="width: 200px">به عهده صاحب کالا می باشد</span>
+                    <span>
+                      <input type="checkbox" checked />
+                    </span>
+                  </div>
+                  <div class="flex items-center mt-1 p-1">
+                    <span style="width: 200px">به عهده شرکت می باشد</span>
+                    <span>
+                      <input type="checkbox" />
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-full flex items-baseline border border-slate-900 border-b-0 p-1 mt-1"
+                >
+                  <strong class="flex-1 grid justify-start"> ارزش کالا </strong>
+                  <strong
+                    class="flex-1 grid justify-end text-left text-secondary-text-color"
+                    >Declared Value For Charge</strong
+                  >
+                </div>
+                <div class="w-full border border-slate-900 border-b-0 p-1">
+                  <div class="border-b-2 border-secondary-background-color">
+                    <div>
+                      ارزش کالا اظهار نشده است و هر گونه خسارت احتمالی بر عهده
+                      صاحب کالا می باشد (N.V.D)
+                    </div>
+                  </div>
+                  <div class="flex items-center mt-1">
+                    <span style="width: 200px">
+                      <span> اظهار نشده است </span>
+                      <span class="mr-3">(N.V.D)</span>
+                    </span>
+                    <span>
+                      <input type="checkbox" checked />
+                    </span>
+                  </div>
+                  <div class="flex items-center my-1">
+                    <span style="width: 200px">اوراق بهادار</span>
+                    <span>
+                      <input type="checkbox" />
+                    </span>
+                  </div>
+                </div>
+                <div class="w-full border border-slate-900 border-b-0 p-1">
+                  <div class="flex items-baseline h-8">
+                    <span class="flex-1 grid justify-start"
+                      >مشخصات بارنامه صحیح می باشد</span
+                    >
+                    <strong
+                      class="flex-1 grid justify-end text-left text-xxs text-secondary-text-color"
+                      >The Partculars Stated Above Are Correct</strong
+                    >
+                  </div>
+                </div>
+                <div class="w-full border border-slate-900 pl-2">
+                  <div class="flex items-center">
+                    <div
+                      class="flex flex-col justify-start gap-y-2 border-l border-b border-slate-900 py-1"
+                      style="width: 150px"
+                    >
+                      <span class="flex-1 grid justify-center"
+                        >دفتر صادر کننده</span
+                      >
+                      <span
+                        class="text-xxs text-secondary-text-color flex-1 grid justify-center"
+                        >Issuer Office</span
+                      >
+                    </div>
+                    <strong class="flex-1 grid justify-center">{{
+                      issueBill?.bill?.issuerOffice?.officeName
+                    }}</strong>
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="flex flex-col justify-start gap-y-2 border-l border-b border-slate-900 py-1"
+                      style="width: 150px"
+                    >
+                      <span class="flex-1 grid justify-center"
+                        >کاربر صادر کننده</span
+                      >
+                      <span
+                        class="text-xxs text-secondary-text-color flex-1 grid justify-center"
+                        >Issuer User</span
+                      >
+                    </div>
+                    <strong class="flex-1 grid justify-center">{{
+                      issueBill?.bill?.issuerUser?.userCode
+                    }}</strong>
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="justify-start text-center flex flex-col gap-y-2 border-l border-slate-900 py-1"
+                      style="width: 150px"
+                    >
+                      <span class="flex-1 grid justify-center"
+                        >کاربر پرینت کننده</span
+                      >
+                      <span
+                        class="text-xxs text-secondary-text-color flex-1 grid justify-center"
+                        >Printer Office</span
+                      >
+                    </div>
+                    <strong class="flex-1 grid justify-center">{{
+                      printerOffice
+                    }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #elseTemplateError>
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <warning-icon
+          class="inline-block w-24 fill-table-warning-color"
+        ></warning-icon>
+        <b class="block text-table-warning-color">{{
+          error?.description_fa
+        }}</b>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

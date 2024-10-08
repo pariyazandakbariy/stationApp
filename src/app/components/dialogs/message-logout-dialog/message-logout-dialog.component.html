@@ -1,0 +1,28 @@
+<core-card class="block min-w-96 m-5">
+  <div class="flex justify-between bg-background-color px-3">
+    <b class="m-4 self-center">{{ labels.dialogTitle }}</b>
+    <remove-icon
+      (click)="close()"
+      class="hover:cursor-pointer w-6"
+    ></remove-icon>
+  </div>
+
+  <div class="grid min-h-32 px-4 py-2">
+    <div class="flex flex-col justify-between mt-4">
+      <div>
+        <p>{{ labels.dialogMessage }}</p>
+      </div>
+      <div class="grid grid-cols-3 gap-3 min-h-10 text-sm">
+        <core-btn
+          [colorState]="'warning'"
+          class="col-start-2"
+          (click)="onLogout()"
+          >{{ labels.buttonLabelLogout }}</core-btn
+        >
+        <core-btn [theme]="'square'" class="col-span-1" (click)="close()">{{
+          labels.buttonLabelCancel
+        }}</core-btn>
+      </div>
+    </div>
+  </div>
+</core-card>

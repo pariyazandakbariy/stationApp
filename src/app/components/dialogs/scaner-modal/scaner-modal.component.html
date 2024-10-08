@@ -1,0 +1,35 @@
+<div class="bg-white h-min rounded-lg shadow-md block min-w-88 sm:min-w-96 m-5">
+  <div class="flex justify-between bg-background-color px-3">
+    <b class="m-4 self-center">{{ labels.dialogTitle }}</b>
+    <remove-icon
+      (click)="close()"
+      class="hover:cursor-pointer w-6"
+    ></remove-icon>
+  </div>
+
+  <div class="grid min-h-32 px-4 py-2">
+    <ngx-scanner-qrcode
+      class="w-80 sm:w-96 md:h-56"
+      #action="scanner"
+      [config]="scannerQRCodeConfig"
+      (event)="onEvent($event, action)"
+    ></ngx-scanner-qrcode>
+    <p class="my-4" *ngIf="action.isLoading">⌛ لطفا صبر کنید ...</p>
+    <button
+      class="btn flex justify-center my-4"
+      [class.btn-info]="!action.isStart"
+      [class.btn-warning]="action.isStart"
+      [disabled]="action.isLoading"
+      (click)="handle(action, action.isStart ? 'stop' : 'start')"
+    >
+      <img
+        [src]="
+          action.isStart
+            ? 'https://id1945.github.io/images/svg/camera-off.svg'
+            : 'https://id1945.github.io/images/svg/camera-on.svg'
+        "
+        width="30px"
+      />
+    </button>
+  </div>
+</div>

@@ -1,0 +1,309 @@
+<div class="p-4 overflow-auto h-[90vh]">
+  <div class="text-start ms-5">
+    <p>
+      {{ labels.senderReceiverInfo }}
+    </p>
+  </div>
+  <div class="grid sm:grid-cols-2 grid-cols-1 gap-3">
+    <core-card class="m-5">
+      <div class="flex flex-col p-7">
+        <core-city-selector
+          class="flex-1"
+          [placeholder]="' شهر مبدا'"
+          [defaultValue]="preBook.originCity"
+          (onSelect)="preBook.originCity = $event; onOriginCityChange($event)"
+          [inputFormControl]="
+            myForm.get('formControlOriginCity')! | formControl
+          "
+        ></core-city-selector
+        ><core-radio-buttons
+          class="flex-1"
+          [titleKey]="'title'"
+          [valueKey]="'value'"
+          [layout]="'row'"
+          [name]="'r3'"
+          [defaultValue]="
+            this.preBook.pickupPointType ? this.preBook.pickupPointType : ''
+          "
+          [items]="(getFromOriginFilterList | async)!"
+          (onChange)="preBook.deliveryPointType = $event"
+        ></core-radio-buttons>
+      </div>
+    </core-card>
+    <core-card class="m-5">
+      <div class="flex flex-col p-7">
+        <core-city-selector
+          class="flex-1"
+          [placeholder]="' شهر مقصد'"
+          (onSelect)="
+            preBook.destinationCity = $event; onDestinationCityChange($event)
+          "
+          [inputFormControl]="
+            myForm.get('formControlDestinationCity')! | formControl
+          "
+        ></core-city-selector>
+        <core-radio-buttons
+          class="flex-1"
+          [titleKey]="'title'"
+          [valueKey]="'value'"
+          [layout]="'row'"
+          [name]="'r1'"
+          [defaultValue]="
+            this.preBook.deliveryPointType ? this.preBook.deliveryPointType : ''
+          "
+          [items]="(getFromDestinationFilterList | async)!"
+          (onChange)="preBook.pickupPointType = $event"
+        ></core-radio-buttons>
+      </div>
+    </core-card>
+  </div>
+  <div class="text-start ms-5 mt-5">
+    <p>{{ labels.packageInfo }}</p>
+  </div>
+  <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-3 mt-8">
+    <app-package-form
+      *ngFor="let package of this.preBook.packagesInfo; let i = index"
+      [index]="i"
+      [packageInfoLength]="this.preBook.packagesInfo.length"
+      (removeEmit)="removePackageInfo(i)"
+      [inputFormControl]="myForm.get('formArray.' + i)! | formControl"
+      [packageInfo]="package"
+    ></app-package-form>
+    <app-add-package-form
+      class="mb-3"
+      (onAddEmit)="onAddPackageInfo()"
+    ></app-add-package-form>
+  </div>
+
+  <div class="grid mt-5">
+    <div class="text-start ms-5">
+      <p>{{ labels.senderInfo }}</p>
+    </div>
+    <core-card class="m-5">
+      <div class="ps-5 pe-5 pt-5">
+        <div class="grid sm:grid-cols-4 grid-cols-1 gap-3">
+          <core-input
+            type="number"
+            [placeholder]="labels.mobileInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlSenderMobile')! | formControl
+            "
+            (onChange)="book.sender.mobile = $event"
+          ></core-input>
+          <core-input
+            [placeholder]="labels.nameInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlSenderFullName')! | formControl
+            "
+            (onChange)="book.sender.fullName = $event"
+          ></core-input>
+          <core-input
+            [placeholder]="labels.nationalCode"
+            [inputFormControl]="
+              myForm.get('formControlSenderNationalCode')! | formControl
+            "
+            (onChange)="book.sender.nationalCode = $event"
+          ></core-input>
+
+          <core-select
+            [label]="labels.station"
+            [items]="originStations | async"
+            [titleKey]="'officeName'"
+            [valueKey]="'officeId'"
+            [inputFormControl]="
+              myForm.get('formControlSenderStation')! | formControl
+            "
+            [defaultValue]="preBook.originOffice?.officeId"
+            (onItemSelected)="
+              book.sender.office = $event; preBook.originOffice = $event
+            "
+          ></core-select>
+        </div>
+        <div>
+          <core-textarea
+            [placeholder]="labels.addressInputLabel"
+            [maxLength]="200"
+            [textareaFormControl]="
+              myForm.get('formControlSenderAddress')! | formControl
+            "
+            (onChange)="book.sender.address = $event"
+          ></core-textarea>
+        </div>
+        <div class="grid sm:grid-cols-3 grid-cols-1 gap-3">
+          <core-input
+            type="number"
+            [placeholder]="labels.buildingNumberInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlSenderBuildingNumber')! | formControl
+            "
+            (onChange)="book.sender.buildingNo = $event"
+          ></core-input>
+          <core-input
+            type="number"
+            [placeholder]="labels.unitNumberInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlSenderUnitNumber')! | formControl
+            "
+            (onChange)="book.sender.unitNo = $event"
+          ></core-input>
+          <core-input
+            type="number"
+            [placeholder]="labels.postalCodeInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlSenderPostalCode')! | formControl
+            "
+            (onChange)="book.sender.postalCode = $event"
+          ></core-input>
+        </div>
+      </div>
+    </core-card>
+  </div>
+  <div class="grid mt-5">
+    <div class="text-start ms-5">
+      <p>{{ labels.receiverInfo }}</p>
+    </div>
+    <core-card class="m-5">
+      <div class="ps-5 pe-5 pt-5">
+        <div class="grid sm:grid-cols-3 grid-cols-1 gap-3">
+          <core-input
+            type="number"
+            [placeholder]="labels.mobileInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlReceiverMobile')! | formControl
+            "
+            (onChange)="book.receiver.mobile = $event"
+          ></core-input>
+          <core-input
+            [placeholder]="labels.nameInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlReceiverFullName')! | formControl
+            "
+            (onChange)="book.receiver.fullName = $event"
+          ></core-input>
+          <core-select
+            [label]="labels.station"
+            [items]="destinationStations | async"
+            [titleKey]="'officeName'"
+            [valueKey]="'officeId'"
+            [inputFormControl]="
+              myForm.get('formControlReceiverStation')! | formControl
+            "
+            [defaultValue]="preBook.destinationOffice?.officeId"
+            (onItemSelected)="
+              book.receiver.office = $event; preBook.destinationOffice = $event
+            "
+          ></core-select>
+        </div>
+        <div>
+          <core-textarea
+            [placeholder]="labels.addressInputLabel"
+            [maxLength]="200"
+            [textareaFormControl]="
+              myForm.get('formControlReceiverAddress')! | formControl
+            "
+            (onChange)="book.receiver.address = $event"
+          ></core-textarea>
+        </div>
+        <div class="grid sm:grid-cols-3 grid-cols-1 gap-3">
+          <core-input
+            type="number"
+            [placeholder]="labels.buildingNumberInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlReceiverBuildingNumber')! | formControl
+            "
+            (onChange)="book.receiver.buildingNo = $event"
+          ></core-input>
+          <core-input
+            type="number"
+            [placeholder]="labels.unitNumberInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlReceiverUnitNumber')! | formControl
+            "
+            (onChange)="book.receiver.unitNo = $event"
+          ></core-input>
+          <core-input
+            type="number"
+            [placeholder]="labels.postalCodeInputLabel"
+            [inputFormControl]="
+              myForm.get('formControlReceiverPostalCode')! | formControl
+            "
+            (onChange)="book.receiver.postalCode = $event"
+          ></core-input>
+        </div>
+      </div>
+    </core-card>
+    <div class="grid mt-5">
+      <div class="text-start ms-5">
+        <p>{{ labels.financialInfo }}</p>
+      </div>
+      <core-card class="m-5">
+        <div class="ps-5 pe-5 pt-5">
+          <div class="grid sm:grid-cols-4 grid-cols-1 gap-3">
+            <core-input
+              type="number"
+              [canShowWordifyFa]="true"
+              [canSplitNumber]="true"
+              [placeholder]="labels.marketerCommissionAmount"
+              [inputFormControl]="
+                myForm.get('formControlMarketerCommissionAmount')! | formControl
+              "
+              (onChange)="preBook.marketerCommissionAmount = +$event"
+            ></core-input>
+            <core-input
+              type="number"
+              [canShowWordifyFa]="true"
+              [canSplitNumber]="true"
+              [placeholder]="labels.packingFeeAmount"
+              [inputFormControl]="
+                myForm.get('formControlPackingFeeAmount')! | formControl
+              "
+              (onChange)="preBook.packingFeeAmount = +$event"
+            ></core-input>
+            <core-input
+              type="number"
+              [canShowWordifyFa]="true"
+              [canSplitNumber]="true"
+              [placeholder]="labels.unknownCourierAmount"
+              [inputFormControl]="
+                myForm.get('formControlUnknownCourierAmount')! | formControl
+              "
+              (onChange)="preBook.unknownCourierAmount = +$event"
+            ></core-input>
+            <core-input
+              type="number"
+              [canShowWordifyFa]="true"
+              [canSplitNumber]="true"
+              [placeholder]="labels.insuranceAmount"
+              [inputFormControl]="
+                myForm.get('formControlInsuranceAmount')! | formControl
+              "
+              (onChange)="preBook.insuranceAmount = +$event"
+            ></core-input>
+          </div>
+          <div class="grid sm:grid-cols-3 grid-cols-1 gap-x-2 pt-1 pb-4">
+            <core-select
+              [label]="labels.selectedPrint"
+              [items]="printers | async"
+              [titleKey]="'name'"
+              [valueKey]="'officePrinterID'"
+              [defaultValue]="(selectedPrinter | async)?.officePrinterID"
+              [inputFormControl]="myForm.get('formControlPrint')! | formControl"
+              (onItemSelected)="onSelectPrinter($event)"
+            ></core-select>
+            <core-btn
+              class="sm:col-start-3"
+              [loading]="loading"
+              [colorState]="'success'"
+              [size]="'medium'"
+              [formGroup]="myForm"
+              [isDisabled]="!myForm.valid"
+              (btnClicked)="onSubmit()"
+            >
+              {{ labels.continueButton }}
+            </core-btn>
+          </div>
+        </div>
+      </core-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="flex justify-center text-center mt-4 text-white">
+  <span
+    class="inline-block rounded-r-lg w-44 cursor-pointer p-2"
+    (click)="selectedComponent = 'ByDate'"
+    [ngClass]="[
+      selectedComponent === 'ByDate'
+        ? 'bg-side-menu-active-color'
+        : 'bg-slate-500'
+    ]"
+    >بر اساس تاریخ</span
+  >
+  <span
+    (click)="selectedComponent = 'ById'"
+    class="inline-block w-47 rounded-l-lg cursor-pointer p-2"
+    [ngClass]="[
+      selectedComponent === 'ById'
+        ? 'bg-side-menu-active-color'
+        : 'bg-slate-500'
+    ]"
+  >
+    بر اساس شماره مانیفست
+  </span>
+</div>
+
+<app-manifest-by-date
+  [hidden]="selectedComponent !== 'ByDate'"
+></app-manifest-by-date>
+
+<app-manifest-manifest-id
+  [hidden]="selectedComponent !== 'ById'"
+></app-manifest-manifest-id>

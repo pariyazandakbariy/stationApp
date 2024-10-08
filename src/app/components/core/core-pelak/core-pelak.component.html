@@ -1,0 +1,58 @@
+<div class="relative">
+  <div class="flex gap-1">
+    <div class="flex relative">
+      <div class="absolute z-[1] flex-none h-10 w-6 border-l-2 border-inherit">
+        <img class="p-1 h-9" src="/assets/images/iran.png" />
+      </div>
+      <core-input
+        class="input-iran"
+        [type]="'number'"
+        [maxLength]="2"
+        [canHighlightBackground]="canHighlightBackground"
+        [disable]="isDisable"
+        [inputFormControl]="myForm.get('formControlColumnOne')! | formControl"
+        (onBlurEmit)="column3($event)"
+      ></core-input>
+    </div>
+    <core-input
+      class="input"
+      [type]="'number'"
+      [maxLength]="3"
+      [canHighlightBackground]="canHighlightBackground"
+      [disable]="isDisable"
+      [inputFormControl]="myForm.get('formControlColumnTwo')! | formControl"
+      (onBlurEmit)="column2($event)"
+    ></core-input>
+    <core-select
+      class="select"
+      [disabled]="isDisable"
+      [items]="letters | async"
+      [defaultValue]="defaultValueLetter"
+      [canHighlightBackground]="canHighlightBackground"
+      [titleKey]="'value'"
+      [valueKey]="'value'"
+      [inputFormControl]="myForm.get('formControlColumnLetter')! | formControl"
+      (onItemSelected)="onLetterSelect($event.value)"
+    ></core-select>
+    <core-input
+      class="input"
+      [type]="'number'"
+      [canHighlightBackground]="canHighlightBackground"
+      [maxLength]="2"
+      [disable]="isDisable"
+      [inputFormControl]="myForm.get('formControlColumnThree')! | formControl"
+      (onBlurEmit)="column1($event)"
+    ></core-input>
+    <span class="c-car-plate__flag">
+      <pelak-icon class="flex h-10 w-8"></pelak-icon>
+    </span>
+  </div>
+  <div class="absolute top-11 label-error overflow-hidden">
+    <span
+      *ngIf="
+      inputFormControl.errors?.['validatorPelak']
+    "
+      >فرمت پلاک صحیح نیست</span
+    >
+  </div>
+</div>

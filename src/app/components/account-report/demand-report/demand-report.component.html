@@ -1,0 +1,105 @@
+<div class="overflow-auto h-screen/90">
+  <div class="flex justify-center select-none text-center mt-4 text-white">
+    <span
+      class="inline-block rounded-r-lg w-28 sm:w-44 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      (click)="selectedComponent = 'detail'"
+      [ngClass]="[
+        selectedComponent === 'detail'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.detail }}</span
+    >
+
+    <span
+      (click)="selectedComponent = 'summary'"
+      class="inline-block w-28 sm:w-44 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'summary'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.summery }}</span
+    >
+    <span
+      (click)="selectedComponent = 'balance'"
+      class="inline-block w-28 sm:w-44 rounded-l-lg cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'balance'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.balance }}</span
+    >
+  </div>
+  <div class="p-5">
+    <core-card>
+      <core-spinner
+        *ngIf="loading"
+        class="w-full px-3 block"
+        type="line"
+      ></core-spinner>
+      <div class="flex flex-1 flex-row gap-x-4 px-4 pt-10 min-h-36">
+        <core-date-picker
+          *ngIf="
+            selectedComponent === 'detail' || selectedComponent === 'summary'
+          "
+          [label]="labels.fromDate"
+          [canSelectToday]="true"
+          [inputFormControl]="
+            accountReportForm.get('fromDateFormControl')! | formControl
+          "
+        >
+        </core-date-picker>
+
+        <core-date-picker
+          *ngIf="
+            selectedComponent === 'detail' || selectedComponent === 'summary'
+          "
+          [label]="labels.toDate"
+          [canSelectToday]="true"
+          [inputFormControl]="
+            accountReportForm.get('toDateFormControl')! | formControl
+          "
+        >
+        </core-date-picker>
+        <app-type-account-report
+          (onSelect)="data = $event"
+        ></app-type-account-report>
+        <div class="flex flex-1 justify-end">
+          <core-btn
+            class="flex max-w-32"
+            [theme]="'square'"
+            [size]="'medium'"
+            [colorState]="'primary'"
+            (click)="onSubmit()"
+          >
+            دریافت
+            {{
+              selectedComponent === "detail"
+                ? "ریز"
+                : selectedComponent === "summary"
+                ? "سرجمع"
+                : "مانده"
+            }}</core-btn
+          >
+        </div>
+      </div>
+    </core-card>
+
+    <core-card class="m-5">
+      <div class="p-4">
+        <b class="text-primary-text-color text-xl">
+          {{ labels.demandReport }}
+        </b>
+      </div>
+      <div class="col-span-1">
+        <core-table
+          [columnsSchema]="columnsSchema"
+          [tableData]="tableData"
+          [loading]="loading"
+        ></core-table>
+      </div>
+    </core-card>
+  </div>
+</div>

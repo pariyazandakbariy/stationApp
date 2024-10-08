@@ -1,0 +1,56 @@
+<div tabindex="-1" class="dropdown" (focusout)="focusOut()">
+  <div
+    class="select"
+    [ngClass]="{
+      'select-clicked': isOpenMenu,
+      'highlight-background':
+        canHighlightBackground &&
+        (selectedItem | json) === ({} | json) &&
+        !(inputFormControl.touched && inputFormControl.errors),
+      selectError: inputFormControl.touched && inputFormControl.errors ,
+      'disable-selector': disabled,
+
+    }"
+    (click)="openMenuClick()"
+  >
+    <span
+      class="placeholder-top"
+      *ngIf="(selectedItem | json) != ({} | json)"
+      >{{ label }}</span
+    >
+    <arrow-down-icon
+      class="caret fill-secondary-text-color h-6"
+      [ngClass]="{ 'caret-rotate': isOpenMenu }"
+    ></arrow-down-icon>
+
+    <span
+      [ngClass]="[
+        label.length > 0 && (selectedItem | json) == ({} | json)
+          ? 'placeholder'
+          : 'selected'
+      ]"
+      >{{
+        label.length > 0 && (selectedItem | json) == ({} | json)
+          ? label
+          : selectedItem.title
+      }}</span
+    >
+  </div>
+  <ul class="menu" [ngClass]="{ 'menu-open': isOpenMenu }">
+    <li
+      *ngFor="let item of newItems"
+      [ngClass]="{ active: item == selectedItem }"
+      (click)="onItemSelect(item, true)"
+    >
+      {{ item.title }}
+    </li>
+  </ul>
+  <div class="label-error overflow-hidden">
+    <span
+      *ngIf="
+       inputFormControl.touched  &&
+      inputFormControl.errors?.['required']"
+      >این فیلد خالی است</span
+    >
+  </div>
+</div>

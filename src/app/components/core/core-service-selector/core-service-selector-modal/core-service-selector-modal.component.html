@@ -1,0 +1,110 @@
+<div class="relative z-50">
+  <core-card class="m-5">
+    <div class="p-4 ms-3 me-3">
+      <p class="text-lg">
+        <b>{{ labels.selectService }}</b>
+      </p>
+
+      <div class="max-w-20 absolute left-4 top-10">
+        <core-btn [colorState]="'success'" (btnClicked)="openFormModal()">
+          <div class="flex">
+            <add-icon class="h-5 w-5 fill-success-button-color"> </add-icon>
+            {{ labels.addButtonName }}
+          </div>
+        </core-btn>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-x-4 px-4 mt-4">
+      <core-date-picker
+        [label]="labels.fromDate"
+        [canSelectToday]="true"
+        [inputFormControl]="myForm.get('fromDateFormControl')! | formControl"
+      >
+      </core-date-picker>
+
+      <core-date-picker
+        [label]="labels.toDate"
+        [canSelectToday]="true"
+        [inputFormControl]="myForm.get('toDateFormControl')! | formControl"
+      >
+      </core-date-picker>
+      <div class="flex flex-1 justify-end">
+        <core-btn
+          class="flex max-w-32"
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'primary'"
+          (click)="onSubmit()"
+          >{{ labels.search }}</core-btn
+        >
+      </div>
+    </div>
+    <div class="pb-3">
+      <div class="min-h-[250px] ms-5 me-5 mt-4 mb-4 overflow-y-auto max-h-80">
+        <div *ngIf="loading; else showData">
+          <core-spinner
+            [size]="56"
+            [colorState]="'primary'"
+            class="w-full px-3 flex items-center justify-center"
+            type="circle"
+          ></core-spinner>
+          <span class="w-full px-3 flex items-center justify-center py-8">{{
+            labels.pleaseWait
+          }}</span>
+        </div>
+        <ng-template #showData>
+          <div
+            class="flex items-center gap-3 p-2 rounded-lg cursor-pointer mItem"
+            [ngClass]="{ selected: selectedItem == item }"
+            (click)="onClick(item)"
+            *ngFor="let item of serviceByDateList | async"
+          >
+            <div class="flex justify-center w-12 h-12 rounded-3xl bg-sky-100">
+              <app-local-shipping-icon
+                class="fill-sky-400 w-9"
+              ></app-local-shipping-icon>
+            </div>
+            <div class="flex flex-1 flex-col">
+              <div class="flex justify-between">
+                <p (click)="onClick(item)">
+                  {{
+                    item.carrier?.carrierNameFa + " " + item.serviceNo
+                      | persianDigits
+                  }}
+                </p>
+                <p class="text-secondary-text-color">
+                  {{ item.driver?.driverFullName }}
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <p class="text-secondary-text-color">
+                  {{ item.originCity?.cityNameFa }} به
+                  {{ item.destinationCity?.cityNameFa }}
+                </p>
+                <p class="p-1" dir="ltr">
+                  {{
+                    item.departureDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                      | persianDigits
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <div *ngIf="!loading && (serviceByDateList | async)?.length === 0">
+          <div class="text-center pt-10">
+            <warning-icon
+              class="inline-block w-24 fill-secondary-text-color"
+            ></warning-icon>
+            <b class="block text-secondary-text-color">{{
+              labels.nothingFound
+            }}</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

@@ -1,0 +1,41 @@
+<div tabindex="-1" class="dropdown" (focusout)="focusOut()">
+  <div
+    class="select"
+    [ngClass]="{
+      'highlight-background':
+        canHighlightBackground &&
+        (selectedDriver | json) === ({} | json) &&
+        !(inputFormControl.touched && inputFormControl.errors),
+      selectError: inputFormControl.touched && inputFormControl.errors
+    }"
+    (click)="showSelectDriverModal()"
+  >
+    <span
+      class="placeholder-top"
+      *ngIf="(selectedDriver | json) != ({} | json)"
+      >{{ placeholder }}</span
+    >
+
+    <span
+      [ngClass]="[
+        placeholder.length > 0 && (selectedDriver | json) == ({} | json)
+          ? 'placeholder'
+          : 'selected'
+      ]"
+      >{{
+        placeholder.length > 0 && (selectedDriver | json) == ({} | json)
+          ? placeholder
+          : selectedDriver.firstName + " " + selectedDriver.lastName
+      }}</span
+    >
+  </div>
+
+  <div class="label-error overflow-hidden">
+    <span
+      *ngIf="
+       inputFormControl.touched  &&
+      inputFormControl.errors?.['required']"
+      >{{ labels.validation }}</span
+    >
+  </div>
+</div>

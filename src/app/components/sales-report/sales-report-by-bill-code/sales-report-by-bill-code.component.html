@@ -1,0 +1,28 @@
+<div class="grid">
+  <core-card class="m-5">
+    <core-spinner
+      *ngIf="loading"
+      class="w-full px-3 block"
+      type="line"
+    ></core-spinner>
+    <div class="flex flex-col justify-center items-center px-6 pt-5 min-h-36">
+      <span class="mb-3 text-lg font-bold">{{ labels.headerTitle }}</span>
+      <div class="flex gap-4 items-baseline">
+        <span class="mt-2">{{ labels.numberCargo }}</span>
+
+        <core-input type="number" (onChange)="code = $event"></core-input>
+        <div class="w-24">
+          <core-btn
+            class=""
+            [isDisabled]="code.toString().length === 0"
+            [theme]="'square'"
+            [size]="'medium'"
+            [colorState]="'primary'"
+            (click)="onSubmit()"
+            >{{ labels.submit }}</core-btn
+          >
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

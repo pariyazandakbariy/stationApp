@@ -1,0 +1,146 @@
+<div
+  class="relative bg-[url('./assets/images/bg-login.jpg')] bg-cover bg-center bg-custom-right flex h-screen items-center justify-center"
+>
+  <div
+    class="absolute sm:right-[3%] bg-login-color flex flex-col shadow-md w-88 sm:w-96 rounded-3xl h-[620px] sm:h-[650px] p-6"
+  >
+    <div class="flex justify-center mt-9">
+      <div
+        class="bg-white w-20 h-20 flex justify-center items-center rounded-full overflow-hidden"
+      >
+        <img
+          src="./assets/images/logo.png"
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+    <div class="flex justify-center my-4">
+      <span class="text-white text-3xl">ورود</span>
+    </div>
+    <div>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div
+          class="relative my-4"
+          [ngClass]="{
+            error:
+              (loginForm.get('username')?.touched ||
+                loginForm.get('username')?.dirty) &&
+              loginForm.get('username')?.errors
+          }"
+        >
+          <div class="container-input">
+            <input
+              type="text"
+              formControlName="username"
+              class="bg-transparent w-full border-b border-b-white focus:outline-none text-white pr-[32px]"
+              [ngClass]="{ 'have-value': loginForm.get('username')?.value }"
+            />
+            <label
+              class="absolute right-[24px] top-[-3px] text-white mr-2 text-sm pointer-events-none select-none"
+              >{{ labels.user }}</label
+            >
+          </div>
+          <person-icon
+            class="absolute right-[8px] top-[-3px] inline-block w-5 fill-white select-none"
+          ></person-icon>
+
+          <div class="label-error overflow-hidden">
+            <div
+              *ngIf="
+                loginForm.get('username')?.invalid &&
+                (loginForm.get('username')?.touched ||
+                  loginForm.get('username')?.dirty)
+              "
+            >
+              <span *ngIf="loginForm.get('username')?.errors?.['required']">{{
+                labels.emptyField
+              }}</span>
+              <span *ngIf="loginForm.get('username')?.errors?.['minlength']">
+                {{ labels.minlength }}
+                {{ loginForm.get('username')?.errors?.['minlength'].requiredLength | persianDigits }}
+                {{ labels.isNumber }}
+              </span>
+              <span *ngIf="loginForm.get('username')?.errors?.['maxlength']">
+                {{ labels.maxlength }}
+                {{ loginForm.get('password')?.errors?.['maxlength'].requiredLength | persianDigits }}
+                {{ labels.isNumber }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="relative mt-8"
+          [ngClass]="{
+            error:
+              (loginForm.get('password')?.touched ||
+                loginForm.get('password')?.dirty) &&
+              loginForm.get('password')?.errors
+          }"
+        >
+          <div class="container-input">
+            <input
+              type="password"
+              formControlName="password"
+              class="bg-transparent w-full border-b border-b-white focus:outline-none text-white pr-[32px]"
+              [ngClass]="{ 'have-value': loginForm.get('password')?.value }"
+            />
+            <label
+              class="absolute right-[24px] top-[-3px] text-white mr-2 text-sm pointer-events-none select-none"
+              >{{ labels.password }}</label
+            >
+          </div>
+          <lock-icon
+            class="absolute right-[8px] top-[-3px] inline-block w-5 fill-white select-none"
+          ></lock-icon>
+
+          <div class="label-error overflow-hidden">
+            <div
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.touched ||
+                  loginForm.get('password')?.dirty)
+              "
+            >
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">{{
+                labels.emptyField
+              }}</span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                {{ labels.minlength }}
+                {{ loginForm.get('password')?.errors?.['minlength'].requiredLength | persianDigits }}
+                {{ labels.isNumber }}
+              </span>
+              <span *ngIf="loginForm.get('password')?.errors?.['maxlength']">
+                {{ labels.maxlength }}
+                {{ loginForm.get('password')?.errors?.['maxlength'].requiredLength | persianDigits }}
+                {{ labels.isNumber }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            formControlName="rememberMe"
+            class="w-[14px] h-[14px] m-1 appearance-none text-base text-center bg-login-color leading-none shadow-none outline outline-1 outline-white"
+          />
+          <label for="rememberMe" class="text-white">
+            {{ labels.rememberMe }}
+          </label>
+        </div>
+
+        <div class="flex justify-center my-4">
+          <button
+            type="submit"
+            class="mt-6 h-8 w-[70px] rounded-md text-login-color bg-white text-base font-extrabold"
+          >
+            {{ labels.submit }}
+          </button>
+        </div>
+        <div class="flex justify-center my-4">
+          <span class="text-white text-sm">{{ labels.isForgetPassword }}</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="root" [ngClass]="{ 'container-row': layout == 'row' }">
+  <div
+    class="radio-bottom"
+    [ngClass]="{ 'item-row-reverse': layout == 'row' }"
+    *ngFor="let item of newItems"
+    (click)="onItemClick(item)"
+  >
+    <input
+      type="radio"
+      [name]="name"
+      [value]="item.value == selectedItem.value"
+      [checked]="item.value == selectedItem.value"
+      (click)="onItemClick(item)"
+    />
+    <span class="label">{{ item.title }}</span>
+  </div>
+</div>

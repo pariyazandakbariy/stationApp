@@ -1,0 +1,92 @@
+<div
+  class="container-menu bg-background-color"
+  (click)="onMenuBtnClick()"
+  [ngClass]="{ 'run-on-small-screen': isRunningOnSmallScreen }"
+>
+  <div
+    class="navigation bg-background-color h-[calc(100vh-64px)]"
+    (click)="$event.stopPropagation()"
+    [class]="
+      isMenuSelect && isRunningOnSmallScreen
+        ? 'hiddenNavigation'
+        : isMenuSelect
+        ? 'navigation-close'
+        : ''
+    "
+  >
+    <div class="profile flex g-4 m-3">
+      <div
+        class="relative flex flex-none h-10 rounded-full mx-2 overflow-hidden"
+      >
+        <img src="./assets/images/avatar.png" />
+      </div>
+      <div
+        class="information-avatar"
+        [class]="isMenuSelect ? 'hidden' : 'relative flex flex-col'"
+      >
+        <div class="block">
+          <div class="inline font-semibold me-2">{{ user?.firstName }}</div>
+          <span class="font-semibold">{{ user?.lastName }}</span>
+        </div>
+        <span class="text-icon-color text-sm font-medium">{{
+          user?.userID
+        }}</span>
+      </div>
+    </div>
+    <ul>
+      <li class="list" *ngFor="let menuItem of menuList">
+        <a
+          class="menu text-icon-color"
+          *ngIf="menuItem.type == 'menu'"
+          [routerLink]="menuItem.child.length ? null : menuItem.link"
+          routerLinkActive="active"
+          (click)="onItemClick(menuItem)"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="icon fill-icon-color h-1 w-1">
+            <ng-container *ngComponentOutlet="menuItem.icon" />
+          </div>
+
+          <span class="title">{{ menuItem.title }}</span>
+          <div
+            class="icon-arrow fill-icon-color"
+            [ngClass]="{ 'icon-arrow-active': menuItem == menuItemClicked }"
+            *ngIf="menuItem.child.length > 0"
+          >
+            <arrow-down-icon class="w-5"></arrow-down-icon>
+          </div>
+        </a>
+        <div *ngIf="menuItem.child.length > 0 && menuItem == menuItemClicked">
+          <div
+            class="child-list"
+            *ngFor="let child of menuItem.child"
+            (click)="onItemChildClick(child)"
+            [routerLink]="child.link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="title">{{ child.title }}</span>
+          </div>
+        </div>
+        <a class="separator" *ngIf="menuItem.type == 'separator'">
+          <span class="title">{{ menuItem.title }}</span>
+          <div class="line"></div>
+        </a>
+      </li>
+      <li class="list">
+        <a
+          class="menu text-icon-color"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="logOut()"
+        >
+          <div class="icon fill-icon-color h-1 w-1">
+            <app-exit-icon></app-exit-icon>
+          </div>
+
+          <span class="title">{{ labels.exit }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

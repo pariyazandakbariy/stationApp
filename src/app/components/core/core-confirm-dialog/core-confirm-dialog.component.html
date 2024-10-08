@@ -1,0 +1,23 @@
+<core-card class="block min-w-64 m-5">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{ confirmDialog.title }}</b>
+    <close-icon
+      (click)="close()"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+
+  <p class="max-w-lg px-6">{{ confirmDialog.text }}</p>
+  <div class="grid grid-cols-4 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close()">{{
+      confirmDialog.cancelBtn
+    }}</core-btn>
+    <core-btn
+      *ngIf="confirmDialog.confirmBtn"
+      (btnClicked)="confirm()"
+      class="col-span-1"
+      [colorState]="confirmDialog.color ? confirmDialog.color : 'danger'"
+      >{{ confirmDialog.confirmBtn }}</core-btn
+    >
+  </div>
+</core-card>

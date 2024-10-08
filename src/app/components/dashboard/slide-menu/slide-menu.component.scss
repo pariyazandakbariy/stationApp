@@ -1,0 +1,189 @@
+@mixin userSelect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.container-menu {
+  display: flex;
+  .navigation {
+    position: relative;
+    width: 250px;
+    overflow-x: hidden;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-inline: 4px;
+      @include userSelect();
+      .list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        cursor: pointer;
+        .active {
+          .title {
+            color: #2c7be5;
+          }
+          .icon {
+            fill: #2c7be5;
+          }
+        }
+        .menu {
+          width: 100%;
+          display: flex;
+          text-decoration: none;
+          border-radius: 8px;
+          .icon {
+            display: flex;
+            flex: none;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-width: 60px;
+            height: 60px;
+            padding: 25px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 1.5em;
+            z-index: 1;
+            padding-inline-end: 8px;
+          }
+          .title {
+            flex: 1;
+            position: relative;
+            display: block;
+            padding-left: 10px;
+            height: 60px;
+            line-height: 60px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+          }
+          .icon-arrow {
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            padding-inline: 12px;
+          }
+          .icon-arrow-active {
+            flex: none;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding-inline: 12px;
+            fill: #5e6e82;
+          }
+          &:hover {
+            background-color: #dfe6f278 !important;
+          }
+        }
+        div {
+          .child-list {
+            padding-inline-start: 60px;
+            padding-block: 8px;
+            border-radius: 8px;
+            .title {
+              color: #5e6e82;
+              font-size: 14px;
+              font-weight: 500;
+            }
+            &:hover {
+              background-color: #dfe6f278;
+            }
+          }
+          .active {
+            padding-inline-start: 60px;
+            padding-block: 8px;
+            border-radius: 8px;
+            .title {
+              color: #2c7be5;
+              font-size: 13px;
+            }
+          }
+        }
+        .separator {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          min-height: 60px;
+          padding-inline: 16px;
+          .title {
+            position: relative;
+            display: block;
+            padding-left: 10px;
+            height: 60px;
+            line-height: 60px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgb(156 154 154);
+          }
+          .line {
+            height: 1px;
+            width: 100%;
+            background-color: rgb(156 154 154);
+          }
+        }
+      }
+    }
+  }
+  .navigation-close {
+    width: 84px;
+    transition: width 0.5s;
+    &:hover {
+      width: 250px;
+      transition: width 0.5s;
+      .profile {
+        .information-avatar {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      ul {
+        .list {
+          .separator {
+            .title {
+              display: block;
+            }
+          }
+          .title {
+            display: block !important;
+          }
+        }
+      }
+    }
+    ul {
+      .list {
+        .separator {
+          .title {
+            display: none;
+          }
+        }
+        .title {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+.run-on-small-screen {
+  position: fixed;
+  right: 0;
+  top: 60px;
+  z-index: 100;
+  left: 0;
+  background: #00000066 !important;
+}
+.hiddenNavigation {
+  display: none;
+}
+.list .icon {
+  width: 24px;
+}

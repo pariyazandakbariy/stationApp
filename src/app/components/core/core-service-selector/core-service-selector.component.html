@@ -1,0 +1,39 @@
+<div tabindex="-1" class="dropdown" (focusout)="focusOut()">
+  <div
+    class="select"
+    [ngClass]="{
+      selectError: inputFormControl.touched && inputFormControl.errors
+    }"
+    (click)="showSelectServiceModal()"
+  >
+    <span
+      class="placeholder-top"
+      *ngIf="(selectedService | json) != ({} | json)"
+      >{{ placeholder }}</span
+    >
+
+    <span
+      [ngClass]="[
+        placeholder.length > 0 && (selectedService | json) == ({} | json)
+          ? 'placeholder'
+          : 'selected'
+      ]"
+      >{{
+        placeholder.length > 0 && (selectedService | json) == ({} | json)
+          ? placeholder
+          : (selectedService.carrier?.carrierNameFa +
+              " " +
+              selectedService.serviceNo | persianDigits)
+      }}</span
+    >
+  </div>
+
+  <div class="label-error overflow-hidden">
+    <span
+      *ngIf="
+       inputFormControl.touched  &&
+      inputFormControl.errors?.['required']"
+      >این فیلد خالی است</span
+    >
+  </div>
+</div>

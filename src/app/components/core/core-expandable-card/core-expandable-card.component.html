@@ -1,0 +1,21 @@
+<div class="root">
+  <div class="header" (click)="isCardOpen = !isCardOpen">
+    <div class="title-header">
+      <b *ngIf="headerTitle.length > 0" class="title-label">
+        {{ headerTitle }}
+      </b>
+      <ng-content *ngIf="headerTitle.length === 0" select="[headerContent]">
+      </ng-content>
+
+      <arrow-down-icon
+        class="caret flex fill-secondary-text-color h-6"
+        [ngClass]="{ 'caret-rotate': isCardOpen }"
+      ></arrow-down-icon>
+    </div>
+  </div>
+  <div class="body-css-class" *ngIf="isCardOpen">
+    <div class="line"></div>
+
+    <ng-content></ng-content>
+  </div>
+</div>

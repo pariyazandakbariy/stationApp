@@ -1,0 +1,37 @@
+.search-box {
+  width: 100%;
+  box-sizing: border-box;
+
+  input {
+    width: calc(100% - 40px);
+    color: #344050;
+    font-size: 0.875rem;
+    padding: .1875rem .75rem;
+
+    &:hover {
+      border-color: #748194;
+    }
+    &:focus {
+      border-color: #96bdf2;
+    }
+    &:hover > input,
+    &:hover > .search-button {
+      border-color: #748194;
+    }
+  }
+
+  .search-button {
+    color: #344050;
+    left: -1px;
+    top: 4px;
+    height: 1.813rem;
+    padding: 0.3125rem 0.65rem;
+    border-radius: 0.25rem 0 0 0.25rem;
+    transition: 0.15s;
+
+    &:hover {
+      background: #748194;
+      fill: white;
+    }
+  }
+}

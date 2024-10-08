@@ -1,0 +1,33 @@
+<div
+  class="flex items-center justify-between bg-background-color sticky top-0 h-[60px] p-4"
+>
+  <div class="userSelect flex items-center">
+    <div
+      class="h-9 cursor-pointer rounded-full p-2 hover:bg-background-hover-color"
+      (click)="onMenuSelect()"
+    >
+      <menu-icon *ngIf="isMenuOpen" class="fill-icon-color"></menu-icon>
+      <menu-open-icon
+        *ngIf="!isMenuOpen"
+        class="fill-icon-color"
+      ></menu-open-icon>
+    </div>
+    <div class="h-10 flex rounded-full mx-4 overflow-hidden">
+      <img src="./assets/images/logo.png" />
+    </div>
+    <p class="text-primary-text-color font-bold text-xl">
+      {{ dashboardHeaderLabels.headerTitle }}
+    </p>
+  </div>
+  <!-- <div class="flex items-center">
+    <div class="relative h-8">
+      <notification-icon class="fill-icon-color"></notification-icon>
+      <span
+        class="w-3 h-3 bg-side-menu-active-color rounded-full absolute top-0 right-[26%]"
+      ></span>
+    </div>
+    <div class="h-10 flex rounded-full mx-2 overflow-hidden">
+      <img src="./assets/images/flower-9.jpg" />
+    </div>
+  </div> -->
+</div>

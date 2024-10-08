@@ -1,0 +1,51 @@
+<div>
+  <div
+    class="container-input"
+    [ngClass]="{
+      error:
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors
+    }"
+  >
+    <time-icon
+      (click)="showSelectTimeModal()"
+      class="absolute left-3 top-3 fill-secondary-text-color h-5"
+    ></time-icon>
+    <input
+      [type]="'text'"
+      class="a-input-style have-value"
+      (keyup)="change($event)"
+      [formControl]="inputFormControl"
+      (blur)="onBlur()"
+      (paste)="onPaste($event)"
+      (keypress)="onKeyPress()"
+      [ngClass]="{
+        'have-value': inputFormControl.value.toString().length > 0,
+        'highlight-background':
+          canHighlightBackground &&
+          inputFormControl.value.toString().length === 0 &&
+          !(
+            (inputFormControl.touched || inputFormControl.dirty) &&
+            inputFormControl.errors
+          ),
+      }"
+    />
+
+    <label *ngIf="placeholder.length > 0">{{ placeholder }} </label>
+    <div class="label-error overflow-hidden">
+      <span
+        *ngIf="
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors?.['required']
+      "
+        >این فیلد خالی است</span
+      ><span
+        *ngIf="
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors?.['minlength']
+      "
+        >فرمت ساعت نامعتبر است</span
+      >
+    </div>
+  </div>
+</div>

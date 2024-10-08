@@ -1,0 +1,77 @@
+<core-card class="block min-w-88 m-5">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">مانده</b>
+    <close-icon
+      (click)="close()"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+
+  <p class="px-6">
+    <span>مانده بدهی تا تاریخ </span>
+    <span dir="ltr">
+      {{
+        config.data.reportDateTime
+          | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+          | persianDigits
+      }}
+    </span>
+    <span *ngIf="config.data.center1">
+      <span
+        *ngIf="!(config.data.center1 === '0' && config.data.center2 === '0')"
+      >
+        مربوط به
+      </span>
+      <span> {{ getCenter1Name() }} </span>
+      <span> </span>
+      <span> {{ getCenter2Name() }} </span>
+    </span>
+    <span> مبلغ </span>
+    <b dir="ltr">
+      <app-core-number
+        [type]="'number'"
+        [canShowWordInToolTip]="true"
+        [canSplitNumbers]="true"
+        [number]="config.data.balanceDebt"
+      >
+      </app-core-number>
+    </b>
+    <span> ریال میباشد . </span>
+  </p>
+
+  <p class="px-6">
+    <span>مانده مطالبات تا تاریخ </span>
+    <span dir="ltr">
+      {{
+        config.data.reportDateTime
+          | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+          | persianDigits
+      }}
+    </span>
+    <span *ngIf="config.data.center1">
+      <span
+        *ngIf="!(config.data.center1 === '0' && config.data.center2 === '0')"
+      >
+        مربوط به
+      </span>
+      <span> {{ getCenter1Name() }} </span>
+      <span> </span>
+      <span> {{ getCenter2Name() }} </span>
+    </span>
+    <span> مبلغ </span>
+    <b dir="ltr">
+      <app-core-number
+        [type]="'number'"
+        [canShowWordInToolTip]="true"
+        [canSplitNumbers]="true"
+        [number]="config.data.balanceDemand"
+      >
+      </app-core-number>
+    </b>
+    <span> ریال میباشد . </span>
+  </p>
+
+  <div class="grid grid-cols-4 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close()">بستن</core-btn>
+  </div>
+</core-card>

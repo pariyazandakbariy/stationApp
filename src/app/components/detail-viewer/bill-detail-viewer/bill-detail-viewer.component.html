@@ -1,0 +1,435 @@
+<core-card class="block max-h-[96vh] w-280 overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-4 self-center">{{ labels.headerTitle }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div *ngIf="loading">
+    <core-spinner
+      [size]="56"
+      [colorState]="'primary'"
+      class="w-full px-3 flex items-center justify-center"
+      type="circle"
+    ></core-spinner>
+    <span class="w-full px-3 flex items-center justify-center py-8">{{
+      labels.pleaseWait
+    }}</span>
+  </div>
+  <div class="flex flex-col" *ngIf="issueBill">
+    <div class="flex flex-row min-height-491">
+      <div class="flex flex-6 flex-col mr-5 pt-2">
+        <core-expandable-card
+          [headerTitle]="labels.headerTitle"
+          [isCardOpen]="true"
+        >
+          <div class="flex flex-col flex-wrap mt-5">
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.billNumber
+                }}</span>
+                <span
+                  class="value"
+                  [copyToClipboard]="issueBill.bill?.billCode"
+                  >{{ issueBill.bill?.billCode | persianDigits }}</span
+                >
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="title w-32">{{ labels.originCity }}</span>
+                <span class="value">{{
+                  issueBill.bill?.originCity?.cityNameFa
+                }}</span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">
+                  {{ labels.destinationCity }}</span
+                >
+                <span class="value">{{
+                  issueBill.bill?.destinationCity?.cityNameFa
+                }}</span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="title w-32"> {{ labels.originOffice }}</span>
+                <span class="value">{{
+                  issueBill.bill?.originOffice?.officeName
+                }}</span>
+              </div>
+            </div>
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.destinationOffice
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">{{
+                  issueBill.bill?.destinationOffice?.officeName
+                }}</span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-32"
+                  >{{ labels.numberPieces }}
+                </span>
+                <span class="text-[13px] font-medium text-inherit">{{
+                  issueBill.bill?.itemCount | persianDigits
+                }}</span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">
+                  {{ labels.receiverFullName }}</span
+                >
+                <span class="value">{{
+                  issueBill.bill?.receiverProfileAddress?.fullName
+                }}</span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="title w-32">
+                  {{ labels.receiverMobilePhone }}</span
+                >
+                <span class="value">{{
+                  issueBill.bill?.receiverProfileAddress?.mobilePhone
+                    | persianDigits
+                }}</span>
+              </div>
+            </div>
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.senderFullName
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">{{
+                  issueBill.bill?.senderProfileAddress?.fullName
+                }}</span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-32"
+                  >{{ labels.senderMobilePhone }}
+                </span>
+                <span class="text-[13px] font-medium text-inherit">{{
+                  issueBill.bill?.senderProfileAddress?.mobilePhone
+                    | persianDigits
+                }}</span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.issueSolarDate
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">{{
+                  issueBill.bill?.issueADDate!
+                    | shamsiDate : "jYYYY/jMM/jDD"
+                    | persianDigits
+                }}</span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-32">{{
+                  labels.billStatus
+                }}</span>
+                <span class="value">{{
+                  issueBill.bill?.billStatus?.statusName
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </core-expandable-card>
+        <core-expandable-card
+          [headerTitle]="labels.financialInformation"
+          [isCardOpen]="false"
+          ><div class="flex flex-col mt-5">
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.cargoFare
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.freight"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">
+                  {{ labels.tax }}</span
+                >
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.vat"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.totalCharges
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.totalCharges"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.totalPrice
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.totalPrice"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.prePayment
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.prePayment"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.leftPayment
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.bill?.leftPayment"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div>
+          </div>
+        </core-expandable-card>
+        <core-expandable-card
+          *ngIf="issueBill.operationComplete"
+          [headerTitle]="labels.deliveryRecipientInformation"
+          [isCardOpen]="false"
+        >
+          <div class="flex flex-col mt-5">
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.fullName
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  {{ issueBill.operationComplete.receiverPersonName }}
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">
+                  {{ labels.deliveryDateTime }}</span
+                >
+                <span class="text-[13px] font-medium text-inherit">
+                  {{
+                    issueBill.operationComplete.deliveryDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD"
+                      | persianDigits
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.daysInWareHouse
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  {{
+                    issueBill.operationComplete.daysInWareHouse | persianDigits
+                  }}
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.courierAmount
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.operationComplete.courierAmount"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg background-item-gray"
+            >
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.destinationChargeAmount
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="
+                      issueBill.operationComplete.destinationChargeAmount
+                    "
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.vat
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.operationComplete.vat"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div>
+            <div class="flex min-w-[285px] flex-1 px-2 py-1 rounded-lg">
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.wareHouseCostAmount
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.operationComplete.wareHouseCostAmount"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+              <div class="w-1/2 h-8 flex items-center">
+                <span class="text-[13px] text-[#6c757d] font-medium w-24">{{
+                  labels.totalPrice
+                }}</span>
+                <span class="text-[13px] font-medium text-inherit">
+                  <app-core-number
+                    [type]="'number'"
+                    [canShowWordInToolTip]="true"
+                    [canSplitNumbers]="true"
+                    [canShowIRR]="true"
+                    [number]="issueBill.operationComplete.totalPrice"
+                  >
+                  </app-core-number>
+                </span>
+              </div>
+            </div></div
+        ></core-expandable-card>
+      </div>
+      <div class="flex flex-4 justify-center mx-2">
+        <core-table
+          class="container-table"
+          [columnsSchema]="columnsSchema"
+          [tableData]="billItems"
+          [loading]="loading"
+        ></core-table>
+      </div>
+    </div>
+    <div class="content-item flex justify-center p-4 gap-2">
+      <div class="w-24" *ngIf="issueBill.bill?.isVoidable">
+        <core-btn
+          class=""
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'danger'"
+          (click)="onVoidBillBtnClicked()"
+          >{{ labels.voidBillBtn }}</core-btn
+        >
+      </div>
+
+      <div class="w-24">
+        <core-btn
+          class=""
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'warning'"
+          (click)="onLabelBillBtnClicked()"
+          >{{ labels.printLabelBtn }}</core-btn
+        >
+      </div>
+
+      <div class="w-24">
+        <core-btn
+          class=""
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'primary'"
+          (click)="onPrintBillBtnClicked()"
+          >{{ labels.printBtn }}</core-btn
+        >
+      </div>
+      <div class="w-24" *ngIf="issueBill.bill?.canCompleteOperation">
+        <core-btn
+          class=""
+          [theme]="'square'"
+          [size]="'medium'"
+          [colorState]="'success'"
+          (click)="onCompleteOperationClicked()"
+          >{{ labels.completeOperation }}</core-btn
+        >
+      </div>
+    </div>
+  </div>
+
+  <core-network-error *ngIf="error !== undefined"></core-network-error>
+</core-card>

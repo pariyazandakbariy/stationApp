@@ -1,0 +1,19 @@
+<div class="text-area-sec">
+  <textarea
+    rows="4"
+    (keypress)="onKeyPress()"
+    (change)="change()"
+    [formControl]="textareaFormControl"
+    [ngClass]="{ 'have-value': textareaFormControl.value }"
+  ></textarea>
+  <label>{{ placeholder }} </label>
+  <div class="label-error overflow-hidden">
+    <span
+      *ngIf="
+      (textareaFormControl.touched || textareaFormControl.dirty) &&
+      textareaFormControl.errors?.['required']
+    "
+      >این فیلد خالی است</span
+    >
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="flex gap-1" *ngIf="data.register">
+  <div class="row">
+    <img class="img-iran p-1" src="/assets/images/iran.png" />
+    <span class="row1">{{ data[column.key].columnFour | persianDigits }}</span>
+  </div>
+  <span class="row">{{ data[column.key].columnThree | persianDigits }}</span>
+  <span class="row">{{ data[column.key].columnTwo | persianDigits }}</span>
+  <span class="row">{{ data[column.key].columnOne | persianDigits }}</span>
+  <pelak-icon class="h-8 w-6"></pelak-icon>
+</div>

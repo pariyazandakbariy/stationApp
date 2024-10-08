@@ -1,0 +1,54 @@
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+}
+input[type="checkbox"]:checked:after {
+  content: "✔";
+  color: white;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.label-error {
+  color: red;
+  font-size: 13px;
+  margin-block-start: 4px;
+  min-height: 21px;
+  width: 100%;
+  display: inline-block !important;
+  text-align: start;
+}
+
+.error input {
+  border-bottom: 1px solid #fe5f5f;
+}
+.container-input {
+  input {
+    &:focus + label,
+    &.have-value + label {
+      top: -25px;
+      font-size: 10px;
+      z-index: 3;
+    }
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff00;
+  &.have-value {
+    -webkit-text-fill-color: white !important;
+  }
+}

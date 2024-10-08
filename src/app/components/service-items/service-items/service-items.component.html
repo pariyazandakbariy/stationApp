@@ -1,0 +1,47 @@
+<div class="overflow-auto h-screen/90">
+  <div class="flex justify-center select-none text-center mt-4 text-white">
+    <span
+      class="inline-block rounded-r-lg w-28 sm:w-44 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      (click)="selectedComponent = 'outgoing'"
+      [ngClass]="[
+        selectedComponent === 'outgoing'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >بارهای خروجی</span
+    >
+
+    <span
+      (click)="selectedComponent = 'incoming'"
+      class="inline-block w-28 sm:w-44 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'incoming'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >بارهای ورودی
+    </span>
+    <span
+      (click)="selectedComponent = 'search'"
+      class="inline-block w-28 sm:w-44 rounded-l-lg cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'search'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >جستجوی سرویس</span
+    >
+  </div>
+
+  <app-service-incoming-items
+    *ngIf="selectedComponent === 'incoming'"
+  ></app-service-incoming-items>
+
+  <app-service-out-going-items
+    *ngIf="selectedComponent === 'outgoing'"
+  ></app-service-out-going-items>
+
+  <app-search-service-items
+    *ngIf="selectedComponent === 'search'"
+  ></app-search-service-items>
+</div>

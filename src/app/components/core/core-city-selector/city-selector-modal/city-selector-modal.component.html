@@ -1,0 +1,46 @@
+<div class="relative z-50">
+  <core-card class="m-5">
+    <p class="p-4 ms-3 me-3 text-lg"><b>انتخاب شهر</b></p>
+    <div
+      class="grid grid-cols-12 h-11 items-center pe-5 ps-5 bg-white mx-6 rounded-full mt-2 shadow-md"
+    >
+      <input
+        placeholder="جستجوی شهر"
+        class="col-span-11 bg-transparent focus:outline-none"
+        [(ngModel)]="searchText"
+        (keyup)="changeSearchText()"
+      />
+      <span class="md:h-7 flex justify-center">
+        <search-icon
+          class="transform scale-x-[-1] fill-icon-color hover:fill-primary-color hover:cursor-pointer"
+        >
+        </search-icon
+      ></span>
+    </div>
+
+    <div class="pb-3">
+      <div class="min-h-[250px] ms-5 me-5 mt-4 mb-4 overflow-y-auto max-h-80">
+        <div class="mx-3" *ngFor="let item of filteredStates | async">
+          <p class="text-secondary-text-color">{{ item.state.stateNameFa }}</p>
+          <div *ngFor="let city of item.children">
+            <p
+              (click)="selectCity(city)"
+              class="px-4 py-2 rounded-xl cursor-pointer hover:bg-secondary-background-color"
+            >
+              {{ city.cityNameFa }}
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="(filteredStates | async)?.length === 0">
+          <div class="text-center pt-10">
+            <warning-icon
+              class="inline-block w-24 fill-secondary-text-color"
+            ></warning-icon>
+            <b class="block text-secondary-text-color">موردی یافت نشد</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

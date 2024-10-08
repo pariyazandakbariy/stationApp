@@ -1,0 +1,53 @@
+<div class="flex flex-1 flex-row gap-x-4">
+  <core-select
+  style="width: 215px;"
+    
+    [titleKey]="'name'"
+    [valueKey]="'id'"
+    [label]="'نوع'"
+    [items]="types | async"
+    (onItemSelected)="onSelectedType($event.id)"
+  >
+</core-select>
+  <div *ngIf="reportType != 'GROUPED_BALANCE'">
+    <ng-container [ngSwitch]="selectedType">
+      <core-pelak-search
+        *ngSwitchCase="'VEHICLE'"
+        class="block mx-4 w-96 cursor-pointer"
+        (onSelect)="onPelakChange($event)"
+      >
+      </core-pelak-search>
+      <core-select
+        class="w-48"
+        *ngSwitchCase="'OFFICE'"
+        [titleKey]="'officeName'"
+        [valueKey]="'officeId'"
+        [defaultValue]="0"
+        [label]="'طرف مقابل'"
+        [items]="newOffices | async"
+        (onItemSelected)="onSelectedOffice($event)"
+      ></core-select>
+      <core-select
+        class="w-48"
+        *ngSwitchCase="'COURIER'"
+        [titleKey]="'driverCourierFullName'"
+        [valueKey]="'driverId'"
+        [defaultValue]="0"
+        [label]="'طرف مقابل'"
+        [items]="newDriverCouriers | async"
+        (onItemSelected)="onSelectedDriverCourier($event)"
+      ></core-select>
+
+      <core-select
+        class="w-48"
+        *ngSwitchCase="'MARKETER'"
+        [titleKey]="'driverCourierFullName'"
+        [valueKey]="'driverId'"
+        [defaultValue]="0"
+        [label]="'طرف مقابل'"
+        [items]="newDriverCouriers | async"
+        (onItemSelected)="onSelectedMarketer($event)"
+      ></core-select>
+    </ng-container>
+  </div>
+</div>

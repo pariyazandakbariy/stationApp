@@ -1,0 +1,17 @@
+<div class="flex flex-col bg-background-color w-full h-full">
+  <core-side-panel></core-side-panel>
+  <app-dashboard-header
+    (menuSelectEmit)="onMenuSelect()"
+    [isSelectedItemEmit]="isSelectMenu"
+  ></app-dashboard-header>
+  <div class="flex flex-row bg-background-color">
+    <app-slide-menu
+      [isMenuSelect]="isSelectMenu"
+      (isSelectedItemEmit)="isSelectMenu = $event"
+      class="flex-none"
+    ></app-slide-menu>
+    <div class="boxShadow flex flex-col flex-1">
+      <app-dashboard-content class="flex-1"></app-dashboard-content>
+    </div>
+  </div>
+</div>

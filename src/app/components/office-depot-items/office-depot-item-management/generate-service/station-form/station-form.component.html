@@ -1,0 +1,46 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{ labels.addStation }}</b>
+    <close-icon
+      (click)="close()"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <core-city-selector
+    class="block mx-4 w-80"
+    [placeholder]="labels.destinationCity"
+    (onSelect)="onDestinationCityChange($event)"
+    [inputFormControl]="myForm.get('formControlDestinationCity')! | formControl"
+  ></core-city-selector>
+  <core-select
+    class="block mx-4 w-80"
+    [label]="labels.destinationStation"
+    [items]="destinationStations | async"
+    [titleKey]="'officeName'"
+    [valueKey]="'officeId'"
+    [inputFormControl]="
+      myForm.get('formControlDestinationStation')! | formControl
+    "
+    (onItemSelected)="station.office = $event"
+  ></core-select>
+  <core-input
+    class="block mx-4 w-80"
+    (onChange)="station.stopTime = $event"
+    [placeholder]="labels.arrivalTime"
+    [inputFormControl]="myForm.get('formControlStopTime')! | formControl"
+  ></core-input>
+
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close()">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      (btnClicked)="submit()"
+      [isDisabled]="!myForm.valid"
+      class="col-span-1"
+      [colorState]="'success'"
+    >
+      {{ labels.add }}
+    </core-btn>
+  </div>
+</core-card>

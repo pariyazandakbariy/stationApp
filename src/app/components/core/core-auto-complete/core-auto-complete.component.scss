@@ -1,0 +1,89 @@
+@mixin userSelect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.dropdown {
+  min-width: 15em;
+  position: relative;
+  width: 100%;
+  min-width: 120px;
+  .select {
+    background: #fff;
+    color: #304050;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 13px;
+    @include userSelect();
+    &:hover {
+      background: #fbfbfb;
+      .selected {
+        background: #fbfbfb;
+      }
+    }
+    .selected {
+      width: 100%;
+      font-size: 13px;
+      outline: none;
+      border: none;
+      @include userSelect();
+    }
+    .caret {
+      color: #595c5f;
+      @include userSelect();
+    }
+    .caret-rotate {
+      transform: rotate(180deg);
+    }
+  }
+  .select-clicked {
+    border: 2px #4f6883 solid;
+    box-shadow: 0 0 0.8em #888;
+  }
+
+  .menu {
+    list-style: none;
+    padding-inline: 0px;
+    background: #fff;
+    border: 1px #e3e8f1 solid;
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+    color: #595c5f;
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0, 2s;
+    z-index: 3;
+    li {
+      padding: 0.7em 0.5em;
+      margin: 0.3em 0;
+      margin-inline: 4px;
+      border-radius: 0.5em;
+      font-size: 14px;
+      text-align: start;
+      cursor: pointer;
+      &:hover {
+        background: #f6f6f6;
+      }
+    }
+    .active {
+      background: #ced4da;
+    }
+  }
+  .menu-open {
+    display: block;
+    opacity: 1;
+  }
+}

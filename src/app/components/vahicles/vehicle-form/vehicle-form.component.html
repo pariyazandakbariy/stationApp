@@ -1,0 +1,90 @@
+<core-card class="block min-w-64 max-h-[90vh] overflow-auto">
+  <div class="flex mb-6 justify-between bg-background-color">
+    <b class="m-3 self-center">{{
+      config.data ? labels.editPrinter : labels.addPrinter
+    }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <core-input
+    (onChange)="vehicle.ownerFullName = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.ownerFullName"
+    [inputFormControl]="myForm.get('formControlOwnerFullName')! | formControl"
+  ></core-input>
+  <core-input
+    (onChange)="vehicle.ownerMobilePhone = $event"
+    class="block mx-4 w-80"
+    [placeholder]="labels.ownerMobilePhone"
+    [inputFormControl]="
+      myForm.get('formControlOwnerMobilePhone')! | formControl
+    "
+  ></core-input>
+
+  <core-select
+    [defaultValue]="vehicle.carrier?.carrierId"
+    [titleKey]="'carrierNameFa'"
+    [valueKey]="'carrierId'"
+    class="block mx-4 w-80"
+    [label]="labels.tableHeaderCarrier"
+    [items]="carriers | async"
+    [inputFormControl]="myForm.get('formControlCarrier')! | formControl"
+    (onItemSelected)="vehicle.carrier = $event"
+  ></core-select>
+
+  <core-select
+    [defaultValue]="vehicle.vehicleType?.vehicleTypeId"
+    [titleKey]="'vehicleTypeNameFa'"
+    [valueKey]="'vehicleTypeId'"
+    [label]="labels.tableHeaderVehicleType"
+    class="block mx-4 w-80"
+    [items]="vehicleTypes | async"
+    [inputFormControl]="myForm.get('formControlVehicleType')! | formControl"
+    (onItemSelected)="vehicle.vehicleType = $event"
+  ></core-select>
+  <core-pelak
+    class="block mx-4 w-80 cursor-pointer"
+    [defaultValue]="vehicle.register"
+    [inputFormControl]="myForm.get('formControlRegister')! | formControl"
+    (onChange)="vehicle.register = $event"
+  >
+  </core-pelak>
+  <core-checkbox
+    class="block mx-4 w-80"
+    [label]="labels.courier"
+    [checked]="vehicle.courier"
+    (onChange)="vehicle.courier = $event.srcElement.checked"
+  ></core-checkbox>
+  <core-checkbox
+    class="block mx-4 w-80"
+    [label]="labels.transporter"
+    [checked]="vehicle.transporter"
+    (onChange)="vehicle.transporter = $event.srcElement.checked"
+  ></core-checkbox>
+  <div class="grid grid-cols-3 gap-x-2 p-3" dir="ltr">
+    <core-btn class="col-span-1" (btnClicked)="close('false')">{{
+      labels.close
+    }}</core-btn>
+    <core-btn
+      [loading]="loading"
+      (btnClicked)="submitBtn()"
+      [isDisabled]="!myForm.valid"
+      [formGroup]="myForm"
+      class="col-span-1"
+      [colorState]="config.data ? 'warning' : 'success'"
+    >
+      {{ config.data ? labels.edit : labels.add }}
+    </core-btn>
+    <core-btn
+      *ngIf="config.data"
+      [loading]="loadingDelete"
+      (btnClicked)="delete()"
+      class="col-span-1"
+      [colorState]="'danger'"
+      [confirmDialog]="confirmDelete"
+      >{{ labels.delete }}</core-btn
+    >
+  </div>
+</core-card>

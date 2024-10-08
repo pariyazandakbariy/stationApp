@@ -1,0 +1,74 @@
+<div class="relative z-50">
+  <core-card class="m-5">
+    <p class="p-4 ms-3 me-3 text-lg">
+      <b>{{ labels.selectDriver }}</b>
+    </p>
+    <div
+      class="grid grid-cols-12 h-11 items-center pe-5 ps-5 bg-white mx-6 rounded-full mt-2 shadow-md"
+    >
+      <input
+        [placeholder]="labels.searchDriver"
+        class="col-span-11 bg-transparent focus:outline-none"
+        [(ngModel)]="searchText"
+        (keyup)="changeSearchText()"
+      />
+      <span class="md:h-7 flex justify-center">
+        <search-icon
+          class="transform scale-x-[-1] fill-icon-color hover:fill-primary-color hover:cursor-pointer"
+        >
+        </search-icon
+      ></span>
+    </div>
+
+    <div class="pb-3">
+      <div class="min-h-[250px] ms-5 me-5 mt-4 mb-4 overflow-y-auto max-h-80">
+        <div *ngIf="loading">
+          <core-spinner
+            [size]="56"
+            [colorState]="'primary'"
+            class="w-full px-3 flex items-center justify-center"
+            type="circle"
+          ></core-spinner>
+          <span class="w-full px-3 flex items-center justify-center py-8">{{
+            labels.pleaseWait
+          }}</span>
+        </div>
+        <div
+          class="flex items-center gap-3 p-2 rounded-lg cursor-pointer"
+          [ngClass]="{ selected: selectedItem == item }"
+          (click)="onClick(item)"
+          *ngFor="let item of filteredDrivers | async"
+        >
+          <div class="flex justify-center w-12 h-12 rounded-3xl bg-sky-100">
+            <person-icon class="fill-sky-400 w-9"></person-icon>
+          </div>
+          <div class="flex flex-1 flex-col">
+            <div class="flex justify-between">
+              <p (click)="onClick(item)">
+                {{ item.firstName + " " + item.lastName }}
+              </p>
+              <p class="text-secondary-text-color">
+                {{ item.mobilePhone | persianDigits }}
+              </p>
+            </div>
+
+            <p class="text-secondary-text-color">
+              {{ item.nationalCode | persianDigits }}
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="!loading && (filteredDrivers | async)?.length === 0">
+          <div class="text-center pt-10">
+            <warning-icon
+              class="inline-block w-24 fill-secondary-text-color"
+            ></warning-icon>
+            <b class="block text-secondary-text-color">{{
+              labels.nothingFound
+            }}</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </core-card>
+</div>

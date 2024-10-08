@@ -1,0 +1,49 @@
+<container-element [ngSwitch]="column.type">
+  <ng-content></ng-content>
+
+  <app-core-table-row-selector-column
+    *ngSwitchCase="columnsTypes.ROW_SELECTOR"
+    [rowSelector]="rowSelector"
+    [data]="data"
+    [column]="column"
+  ></app-core-table-row-selector-column>
+  <app-core-table-status-active-column
+    *ngSwitchCase="columnsTypes.STATUS_ACTIVE"
+    [data]="data"
+    [column]="column"
+  ></app-core-table-status-active-column>
+  <app-core-table-status-column
+    *ngSwitchCase="columnsTypes.STATUS"
+    [data]="data"
+    [column]="column"
+  ></app-core-table-status-column>
+  <app-core-table-action-column
+    *ngSwitchCase="columnsTypes.ACTION"
+    [data]="data"
+    [column]="column"
+  ></app-core-table-action-column>
+  <app-core-table-action-buttons-column
+    *ngSwitchCase="columnsTypes.ACTION_BUTTONS"
+    (onClick)="clicked($event)"
+    [data]="data"
+    [column]="column"
+  ></app-core-table-action-buttons-column>
+  <app-core-table-shamsi-date
+    *ngSwitchCase="columnsTypes.SHAMSI_DATE"
+    [data]="data"
+    [column]="column"
+  >
+  </app-core-table-shamsi-date>
+  <span
+    *ngSwitchCase="columnsTypes.TEXT"
+    [ngClass]="{ 'cursor-pointer': column.copyToClipboard }"
+    (click)="onTextColumnClicked(column, data[column.key])"
+    >{{ data[column.key] | persianDigits }}</span
+  >
+
+  <span *ngSwitchCase="columnsTypes.SELECTOR">
+    <span *ngIf="data[column.key]">{{
+      getSelectorData(data[column.key], column.data.key) | persianDigits
+    }}</span>
+  </span>
+</container-element>

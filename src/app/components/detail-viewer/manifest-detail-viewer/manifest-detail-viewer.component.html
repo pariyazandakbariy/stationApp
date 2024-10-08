@@ -1,0 +1,133 @@
+<core-card class="block w-200 max-h-[90vh] overflow-auto">
+  <div class="flex justify-between bg-background-color">
+    <b class="m-4 self-center">{{ labels.headerTitle }}</b>
+    <close-icon
+      (click)="close('false')"
+      class="h-10 m-3 rounded-full cursor-pointer fill-secondary-text-color p-2 hover:fill-primary-text-color hover:shadow-md hover:bg-background-hover-color"
+    ></close-icon>
+  </div>
+  <div *ngIf="loading; else elseTemplate">
+    <core-spinner
+      [size]="56"
+      [colorState]="'primary'"
+      class="w-full px-3 flex items-center justify-center"
+      type="circle"
+    ></core-spinner>
+    <span class="w-full px-3 flex items-center justify-center py-8">{{
+      labels.pleaseWait
+    }}</span>
+  </div>
+
+  <ng-template #elseTemplate>
+    <div
+      class="text-primary-text-color"
+      *ngIf="error == undefined; else elseTemplateError"
+    >
+      <div *ngIf="manifest.hasOwnProperty('manifestId')">
+        <div class="content">
+          <div class="double-item">
+            <div class="content-item">
+              <div class="row-item">
+                <span class="title">{{ labels.manifestId }}</span>
+                <span class="value">{{
+                  manifest.manifestId | persianDigits
+                }}</span>
+              </div>
+              <div class="row-item">
+                <span class="title">{{ labels.manifestDateTime }}</span>
+                <span class="value"
+                  ><span dir="ltr">{{
+                    manifest.manifestDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                      | persianDigits
+                  }}</span></span
+                >
+              </div>
+            </div>
+            <div class="content-item background-item-gray">
+              <div class="row-item">
+                <span class="title">{{ labels.originCity }}</span>
+                <span class="value">{{ manifest.originCity?.cityNameFa }}</span>
+              </div>
+              <div class="row-item">
+                <span class="title">{{ labels.destinationCity }} </span>
+                <span class="value">{{
+                  manifest.destinationCity?.cityNameFa
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="double-item">
+            <div class="content-item">
+              <div class="row-item">
+                <span class="title">{{ labels.originOffice }}</span>
+                <span class="value">{{
+                  manifest.originOffice?.officeName
+                }}</span>
+              </div>
+              <div class="row-item">
+                <span class="title"> {{ labels.destinationOffice }}</span>
+                <span class="value">{{
+                  manifest.destinationOffice?.officeName
+                }}</span>
+              </div>
+            </div>
+            <div class="content-item background-item-gray">
+              <div class="row-item">
+                <span class="title">{{ labels.serviceCode }} </span>
+                <span
+                  class="value"
+                  detailViewerManager
+                  [detailViewerName]="detailViewers.SERVICE"
+                  [detailViewerData]="manifest.service?.serviceId"
+                  >{{ manifest.service?.serviceId | persianDigits }}</span
+                >
+              </div>
+              <div class="row-item">
+                <span class="title">{{ labels.issuerUserCode }} </span>
+                <span class="value">{{ manifest.issuerUserCode }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="double-item">
+            <core-table
+              [columnsSchema]="columnsSchema"
+              [tableData]="tableData"
+              [loading]="loading"
+            ></core-table>
+            <div class="grid grid-cols-subgrid">
+              <div class="col-start-1 ps-5">{{ labels.total }}</div>
+              <div class="col-start-4">
+                {{
+                  totalPayToServiceAmount | priceFormat : "IRR" | persianDigits
+                }}
+              </div>
+              <div class="col-start-5">
+                {{
+                  totalReceiveFromServiceAmount
+                    | priceFormat : "IRR"
+                    | persianDigits
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-item flex justify-center gap-2">
+        <div class="w-24 mb-3">
+          <core-btn
+            class=""
+            [theme]="'square'"
+            [size]="'medium'"
+            [colorState]="'primary'"
+            (click)="onPrintBillBtnClicked()"
+            >{{ labels.printBtn }}</core-btn
+          >
+        </div>
+      </div>
+    </div>
+    <ng-template #elseTemplateError>
+      <core-network-error></core-network-error>
+    </ng-template>
+  </ng-template>
+</core-card>

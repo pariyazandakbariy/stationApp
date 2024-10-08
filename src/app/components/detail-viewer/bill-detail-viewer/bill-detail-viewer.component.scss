@@ -1,0 +1,33 @@
+.content {
+  @apply flex flex-col flex-wrap flex-[8] mx-3 me-3 py-5;
+}
+.double-item {
+  @apply flex flex-col flex-1;
+}
+.content-item {
+  @apply flex min-w-[285px] flex-1 rounded-lg mx-1;
+  padding-inline: 8px;
+}
+.row-item {
+  @apply flex flex-1 items-center;
+  padding-block: 10px;
+}
+.title {
+  @apply text-[13px] text-[#6c757d] font-medium;
+}
+.value {
+  @apply text-[13px] font-medium text-inherit;
+}
+.background-item-gray {
+  background: #e6e6e657;
+}
+.min-height-491 {
+  min-height: 491px;
+}
+
+.container-table {
+  margin-top: 8px;
+  margin-bottom: 13px;
+  border: 3px solid #9a989873;
+  border-radius: 4px;
+}

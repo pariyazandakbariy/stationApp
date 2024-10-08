@@ -1,0 +1,145 @@
+<div class="overflow-auto h-screen/90" 
+ style="overflow-x: auto; white-space: nowrap; border: px solid #ccc; padding: 10px;">
+  
+  <div class="flex justify-center select-none text-center mt-4 text-white"
+  >
+    <span
+      class="inline-block rounded-r-lg flex-1 min-w-20 max-w-36 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      (click)="selectedComponent = 'detail'"
+      [ngClass]="[
+        selectedComponent === 'detail'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.detail }}
+        </span>
+
+    <span
+      (click)="selectedComponent = 'summary'"
+      class="inline-block flex-1 min-w-20 max-w-36 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'summary'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.summery }}</span>
+    <span
+      (click)="selectedComponent = 'balance'"
+      class="inline-block flex-1 min-w-20 max-w-36 cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'balance'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.balance }}</span
+    >
+    <span
+      (click)="selectedComponent = 'GROUPED_BALANCE'"
+      class="inline-block flex-1 min-w-20 max-w-36 rounded-l-lg cursor-pointer p-1 sm:p-2 text-sm sm:text-base"
+      [ngClass]="[
+        selectedComponent === 'GROUPED_BALANCE'
+          ? 'bg-side-menu-active-color'
+          : 'bg-slate-500'
+      ]"
+      >{{ labels.groupedBalance }}</span
+    >
+  </div>
+  <div class="p-5">
+    <core-card
+    >
+      <core-spinner
+        *ngIf="loading"
+        class="w-full px-3 block"
+        type="line"
+      ></core-spinner>
+      <div class="flex flex-1 flex-row gap-x-4 px-4 pt-10 min-h-36 "
+      style="display: flex; flex-wrap: wrap; gap: 10px;">
+
+
+        <core-date-picker
+          *ngIf="
+            selectedComponent === 'detail' || selectedComponent === 'summary'
+          "
+          [label]="labels.fromDate"
+          [canSelectToday]="true"
+          [inputFormControl]="
+            accountReportForm.get('fromDateFormControl')! | formControl
+          "
+         style="display: flex; flex-wrap: wrap; gap: 10px;">
+        </core-date-picker>
+
+        <core-date-picker
+          *ngIf="
+            selectedComponent === 'detail' || selectedComponent === 'summary'
+          "
+          [label]="labels.toDate"
+          [canSelectToday]="true"
+          [inputFormControl]="
+            accountReportForm.get('toDateFormControl')! | formControl
+          "
+         style="display: flex; flex-wrap: wrap; gap: 10px;">
+        </core-date-picker>
+        
+        <app-type-account-report
+          [reportType]="selectedComponent"
+          (onSelect)="data = $event"
+          style="display: flex; flex-wrap: wrap; gap: 10px;">
+        </app-type-account-report>
+        <div class="flex flex-1 justify-end">
+          
+          <core-btn
+            class="flex max-w-40"
+            [theme]="'square'"
+            [size]="'medium'"
+            [colorState]="'primary'"
+            (click)="onSubmit()"
+            style="display: flex; flex-wrap: wrap; gap: 10px;padding: 10px;">
+
+          
+            دریافت
+            {{
+              selectedComponent === "detail"
+                ? "ریز"
+                : selectedComponent === "summary"
+                ? "سرجمع"
+                : selectedComponent === "balance"
+                ? "مانده"
+                : "گزارش گروهی"
+            }}</core-btn>
+        </div>
+      </div>
+    </core-card>
+
+    <core-card class="m-5" *ngIf="selectedComponent === 'detail'">
+      <div class="p-4">
+        <b class="text-primary-text-color text-xl">
+          {{ labels.debtReport }}
+        </b>
+      </div>
+
+      <div class="col-span-1 mt-3">
+        <core-table
+          [columnsSchema]="columnsSchema"
+          [tableData]="tableData"
+          [loading]="loading"
+        ></core-table>
+      </div>
+    </core-card>
+
+    <core-card class="m-5" *ngIf="selectedComponent === 'GROUPED_BALANCE'">
+      <div class="p-4">
+        <b class="text-primary-text-color text-xl">
+          {{ labels.debtReport }}
+        </b>
+      </div>
+
+      <div class="col-span-1 mt-3">
+        <core-table
+          [columnsSchema]="groupBalanceColumnsSchema"
+          [tableData]="groupBalanceTableData"
+          [loading]="loading"
+        ></core-table>
+      </div>
+    </core-card>
+  </div>
+

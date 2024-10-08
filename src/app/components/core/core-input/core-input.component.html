@@ -1,0 +1,90 @@
+<div>
+  <div
+    class="container-input"
+    [ngClass]="{
+      error:
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors
+    }"
+  >
+    <input
+      [type]="'text'"
+      class="a-input-style"
+      [formControl]="inputFormControl"
+      (blur)="onBlur()"
+      (keyup)="change($event)"
+      (paste)="onPaste($event)"
+      [ngClass]="{
+        'have-value': inputFormControl.value.toString().length > 0,
+        'highlight-background':
+          canHighlightBackground &&
+          inputFormControl.value.toString().length === 0 &&
+          !(
+            (inputFormControl.touched || inputFormControl.dirty) &&
+            inputFormControl.errors
+          ),
+        'disable-input': isDisable
+      }"
+      (keypress)="onKeyPress()"
+    />
+    <label *ngIf="placeholder.length > 0">{{ placeholder }} </label>
+    <div class="label-error overflow-hidden">
+      <span
+        class="label-number"
+        *ngIf="
+          canShowWordifyFa &&
+          inputFormControl.value.toString().length > 0 &&
+          inputType === 'number'
+        "
+        ><app-core-number
+          [canShowWordInToolTip]="false"
+          [type]="'word'"
+          [number]="inputFormControl.value"
+        ></app-core-number
+      ></span>
+
+      <span
+        *ngIf="
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors?.['required']
+      "
+        >این فیلد خالی است</span
+      >
+      <span
+        *ngIf="
+        (inputFormControl.touched || inputFormControl.dirty) &&
+        inputFormControl.errors?.['prePayment']
+      "
+        >مبلغ صحیح نیست</span
+      >
+      <span
+        *ngIf="
+      (inputFormControl.touched || inputFormControl.dirty) &&
+      inputFormControl.errors?.['minlength']
+    "
+      >
+        حداقل تعداد کارکتر
+        {{inputFormControl.errors?.['minlength'].requiredLength|persianDigits}}
+        عدد باشد
+      </span>
+      <span
+        *ngIf="
+      (inputFormControl.touched || inputFormControl.dirty) &&
+      inputFormControl.errors?.['maxlength']
+    "
+      >
+        حداکثر تعداد کارکتر
+        {{inputFormControl.errors?.['maxlength'].requiredLength |persianDigits}}
+        عدد باشد
+      </span>
+      <span
+        *ngIf="
+      (inputFormControl.touched || inputFormControl.dirty) &&
+      inputFormControl.errors?.['pattern'].requiredPattern=='^09[0-9]{9}$'
+    "
+      >
+        شماره همراه اشتباه هست
+      </span>
+    </div>
+  </div>
+</div>

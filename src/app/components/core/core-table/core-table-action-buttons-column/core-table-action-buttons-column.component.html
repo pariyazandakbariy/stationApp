@@ -1,0 +1,10 @@
+<span *ngFor="let data of column.data">
+  <span
+    *ngIf="checkFilter(data)"
+    [title]="data.title"
+    class="cursor-pointer h-5 inline-block fill-secondary-text-color m-1"
+    (click)="clicked(data.key)"
+  >
+    <ng-container *ngComponentOutlet="data.component" />
+  </span>
+</span>

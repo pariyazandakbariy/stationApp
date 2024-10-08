@@ -1,0 +1,501 @@
+<core-spinner
+  *ngIf="loading; else elseTemplate"
+  class="w-full px-3 flex items-center justify-center min-h-screen"
+  type="circle"
+></core-spinner>
+<ng-template #elseTemplate>
+  <div
+    class="p-4 text-primary-text-color"
+    *ngIf="error == undefined; else elseTemplateError"
+  >
+    <div class="flex justify-end">
+      <div class="w-28">
+        <button
+          class="print-button primary square"
+          printSectionId="print-section"
+          ngxPrint
+          [useExistingCss]="true"
+        >
+          {{ labels.print_downloadBtn }}
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-auto h-[calc(100vh-120px)] grid grid-cols-1 p-4">
+      <div id="print-section">
+        <div class="rtl-grid text-primary-text-color text-xs print-box">
+          <div class="flex justify-between h-20 items-center">
+            <div class="flex-1 flex-row">
+              <div class="flex gap-x-2 p-1 items-center">
+                <b>
+                  <span class="block w-full"
+                    >{{ labels.manifestDateTime }}:</span
+                  >
+                </b>
+
+                <div class="flex flex-row-reverse gap-x-2">
+                  <b>{{
+                    manifestData?.manifestDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD"
+                      | persianDigits
+                  }}</b>
+                  <b>{{
+                    manifestData?.manifestDateTime
+                      | shamsiDate : "HH:mm"
+                      | persianDigits
+                  }}</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex-1 text-center flex-col items-center">
+              <b class="flex flex-col">
+                <span>{{ labels.headerTitlePrint }}</span>
+              </b>
+            </div>
+
+            <div class="flex-1 h-20 flex mx-2 overflow-hidden justify-end">
+              <img class="object-fill" src="../../../assets/images/logo.png" />
+            </div>
+          </div>
+          <b class="flex justify-between items-baseline gap-x-5 my-2">
+            <div class="w-full flex gap-x-4 p-1">
+              <span> {{ labels.manifestId }} :</span>
+              <span>{{ manifestData?.manifestId | persianDigits }}</span>
+            </div>
+            <div class="w-full flex justify-end p-1"></div>
+          </b>
+          <div>
+            <div class="flex w-full gap-x-1">
+              <div class="flex-1 flex-col">
+                <div
+                  class="w-full flex justify-between items-baseline border border-slate-900 p-3"
+                >
+                  <span>شماره سرویس :</span>
+                  <strong>{{
+                    manifestData?.service?.serviceNo | persianDigits
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Service number :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>شهر مبدا :</span>
+                  <strong>{{
+                    manifestData?.service?.originCity?.cityNameFa
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Origin city :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>ایستگاه مبدا :</span>
+                  <strong>{{
+                    manifestData?.service?.originOffice?.officeName
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Origin office :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>وسیله نقلیه :</span>
+                  <strong>{{
+                    manifestData?.service?.vehicleType?.vehicleTypeNameFa
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Vehicle :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>نام راننده :</span>
+                  <strong>{{
+                    manifestData?.service?.driver?.driverFullName
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Driver fullName :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>ساعت حرکت :</span>
+                  <strong dir="ltr">{{
+                    manifestData?.service?.departureDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                      | persianDigits
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Departure date :</span
+                  >
+                </div>
+              </div>
+              <div class="flex-1 flex-col">
+                <div
+                  class="w-full flex justify-between items-center border border-slate-900 p-1"
+                >
+                  <span>پلاک :</span>
+                  <div
+                    class="flex gap-1"
+                    *ngIf="manifestData?.service?.vehicle?.register"
+                  >
+                    <div class="row">
+                      <img class="img-iran p-1" src="/assets/images/iran.png" />
+                      <span class="row1">{{
+                        manifestData?.service?.vehicle?.registerFormat
+                          ?.columnFour | persianDigits
+                      }}</span>
+                    </div>
+                    <span class="row">{{
+                      manifestData?.service?.vehicle?.registerFormat
+                        ?.columnThree | persianDigits
+                    }}</span>
+                    <span class="row">{{
+                      manifestData?.service?.vehicle?.registerFormat?.columnTwo
+                        | persianDigits
+                    }}</span>
+                    <span class="row">{{
+                      manifestData?.service?.vehicle?.registerFormat?.columnOne
+                        | persianDigits
+                    }}</span>
+                    <pelak-icon class="h-8 w-6"></pelak-icon>
+                  </div>
+
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Pelak :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>شهر مقصد :</span>
+                  <strong>{{
+                    manifestData?.service?.destinationCity?.cityNameFa
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Destination city :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>ایستگاه مقصد :</span>
+                  <strong>{{
+                    manifestData?.service?.destinationOffice?.officeName
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Destination office :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>شرکت :</span>
+                  <strong>{{
+                    manifestData?.service?.carrier?.carrierNameFa
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Carrier :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>شماره راننده :</span>
+                  <strong>{{
+                    manifestData?.service?.driver?.driverMobilePhone
+                      | persianDigits
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Driver mobilePhone :</span
+                  >
+                </div>
+                <div
+                  class="w-full flex justify-between items-baseline border-r border-l border-b border-slate-900 p-1"
+                >
+                  <span>ساعت رسیدن :</span>
+                  <strong dir="ltr">{{
+                    manifestData?.service?.arrivalDateTime
+                      | shamsiDate : "jYYYY/jMM/jDD HH:mm"
+                      | persianDigits
+                  }}</strong>
+                  <span
+                    class="text-secondary-text-color text-xxs"
+                    style="direction: ltr"
+                    >Arrival date :</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="border border-slate-900 border-b-0 p-1 mt-2">
+                <span class="flex-1 grid justify-start">{{
+                  labels.featureManifest
+                }}</span>
+              </div>
+              <div class="flex justify-between">
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.tableRow }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.billNumber }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.originCity }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.destinationCity }}</span>
+                </div>
+
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.tableServiceFreightShare }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.tableFreightCollectAmount }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 border-l-0 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.tablePayToServiceAmount }}</span>
+                </div>
+                <div
+                  class="text-center border border-slate-900 py-2"
+                  style="width: 450px"
+                >
+                  <span>{{ labels.tablePayToServiceAmount }}</span>
+                </div>
+              </div>
+              <div
+                *ngFor="
+                  let item of manifestData?.serviceManifests;
+                  let index = index
+                "
+                class="flex justify-between"
+              >
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ index + 1 | persianDigits }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item?.billCode | persianDigits }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ manifestData?.originCity?.cityNameFa }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ manifestData?.destinationCity?.cityNameFa }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.serviceFreightShare | digitGroup | persianDigits }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.freightCollectAmount | digitGroup | persianDigits }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  {{ item.payToServiceAmount | digitGroup | persianDigits }}
+                </div>
+                <div
+                  class="flex flex-col text-center p-1 border border-slate-900 border-t-0"
+                  style="width: 450px"
+                >
+                  {{
+                    item.receiveFromServiceAmount | digitGroup | persianDigits
+                  }}
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div
+                  class="text-center py-8 border-b border-r border-slate-900"
+                  style="width: 906px"
+                >
+                  <strong>{{ labels.tableSum }}</strong>
+                </div>
+
+                <div
+                  class="text-center py-8 border-b border-slate-900"
+                  style="width: 450px"
+                >
+                  <span></span>
+                </div>
+                <div
+                  class="text-center py-8 border-b border-slate-900"
+                  style="width: 450px"
+                >
+                  <span></span>
+                </div>
+                <div
+                  class="text-center py-8 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  <span>{{
+                    totalServiceFreightShare | digitGroup | persianDigits
+                  }}</span>
+                </div>
+                <div
+                  class="text-center py-8 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  <span>{{
+                    totalFreightCollectAmount | digitGroup | persianDigits
+                  }}</span>
+                </div>
+                <div
+                  class="text-center py-8 border-b border-r border-slate-900"
+                  style="width: 450px"
+                >
+                  <span>{{
+                    totalPayToServiceAmount | digitGroup | persianDigits
+                  }}</span>
+                </div>
+                <div
+                  class="text-center py-8 border border-slate-900 border-t-0"
+                  style="width: 450px"
+                >
+                  <span>{{
+                    totalReceiveFromServiceAmount | digitGroup | persianDigits
+                  }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex w-full gap-x-1 mt-2">
+              <div class="w-full border border-slate-900 pl-2">
+                <div class="flex items-center">
+                  <div
+                    class="flex flex-col justify-start gap-y-2 border-l border-b border-slate-900 py-1"
+                    style="width: 150px"
+                  >
+                    <span class="flex-1 grid justify-center"
+                      >{{ labels.issuerUser }}
+                    </span>
+                    <span
+                      class="text-xxs text-secondary-text-color flex-1 grid justify-center"
+                      >Issuer User</span
+                    >
+                  </div>
+                  <strong class="flex-1 grid justify-center">{{
+                    manifestData?.issuerUserCode
+                  }}</strong>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="justify-start text-center flex flex-col gap-y-2 border-l border-slate-900 py-1"
+                    style="width: 150px"
+                  >
+                    <span class="flex-1 grid justify-center">
+                      {{ labels.printerOffice }}</span
+                    >
+                    <span
+                      class="text-xxs text-secondary-text-color flex-1 grid justify-center"
+                      >Printer Office</span
+                    >
+                  </div>
+                  <strong class="flex-1 grid justify-center">{{
+                    myInfo?.userID
+                  }}</strong>
+                </div>
+              </div>
+              <div class="w-full border border-slate-900 p-2">
+                <div>{{ labels.descriptionCompany }}</div>
+                <div class="flex items-baseline mt-1">
+                  <span class="flex-1">{{ labels.salesOffice }}</span>
+                  <span class="flex-1"></span>
+                </div>
+                <div class="flex items-baseline mt-1">
+                  <span class="flex-1">{{
+                    labels.AirportCargoSalesOffice
+                  }}</span>
+                  <span class="flex-1"></span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 text-left">
+              <div>Powerd by Nira</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #elseTemplateError>
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <warning-icon
+          class="inline-block w-24 fill-table-warning-color"
+        ></warning-icon>
+        <b class="block text-table-warning-color">{{
+          error?.description_fa
+        }}</b>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

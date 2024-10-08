@@ -1,0 +1,32 @@
+<div class="header">
+  <div class="title-header justify-between">
+    <b class="title-label">{{ labels.title }}</b>
+    <arrow-back-icon class="w-5" (click)="close()"></arrow-back-icon>
+  </div>
+</div>
+<div class="content">
+  <div class="container-tab">
+    <div class="tab">
+      <button
+        class="tablinks"
+        [class.active]="selectedTab === 'aggregation'"
+        (click)="itemTabClick('aggregation')"
+      >
+        {{ labels.aggregation }}
+      </button>
+      <button
+        class="tablinks active"
+        [class.active]="selectedTab === 'deliveryService'"
+        (click)="itemTabClick('deliveryService')"
+      >
+        {{ labels.deliveryService }}
+      </button>
+    </div>
+  </div>
+  <div [ngSwitch]="selectedTab" class="overflow-auto h-screen/90">
+    <aggregation *ngSwitchCase="'aggregation'" [data]="data"></aggregation>
+    <cargo-delivery-service
+      *ngSwitchCase="'deliveryService'"
+    ></cargo-delivery-service>
+  </div>
+</div>
